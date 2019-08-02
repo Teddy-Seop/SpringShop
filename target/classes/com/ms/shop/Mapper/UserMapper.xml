@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ms.shop.Dao.IShopDao">
+	
+	<select id="loginCheck" resultType="com.ms.shop.Vo.UserVo">
+		SELECT * FROM user WHERE id = #{id}
+	</select>
+	
+	<insert id="signUp">
+		INSERT INTO user VALUES (#{id}, #{pw}, #{name}, #{phone}, #{address}, #{power})
+	</insert>
+</mapper>
