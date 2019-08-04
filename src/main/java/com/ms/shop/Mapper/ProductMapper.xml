@@ -3,10 +3,22 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ms.shop.Dao.IShopDao">
+<mapper namespace="com.ms.shop.Dao.IProductDao">
 	
 	<select id="productList" resultType="com.ms.shop.Vo.ProductVo">
-		SELECT * FROM product where status = 1
+		SELECT * FROM product WHERE status = 1
+	</select>
+	
+	<select id="productListGender" resultType="com.ms.shop.Vo.ProductVo">
+		SELECT * FROM product WHERE status = 1 AND gender = #{gender}
+	</select>
+	
+	<select id="productDetail" resultType="com.ms.shop.Vo.ProductVo">
+		SELECT * FROM product WHERE no = #{no}
+	</select>
+	
+	<select id="managementList" resultType="com.ms.shop.Vo.ProductVo">
+		SELECT * FROM product WHERE brand = #{brand}
 	</select>
 	
 	<insert id="productRegister">
@@ -14,4 +26,8 @@
 		VALUES 
 		(#{name}, #{price}, #{image}, #{gender}, #{category}, #{brand}, #{stock}, #{count}, #{status}, now());
 	</insert>
+	
+	<update id="productManagement">
+		UPDATE product SET status = #{status} WHERE no = #{no}
+	</update>
 </mapper>

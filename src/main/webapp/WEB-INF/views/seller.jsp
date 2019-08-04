@@ -15,11 +15,15 @@
 </head>
 <body>
 	<button class="supervise">SUPERVISE</button>
+	<button class="management">MANAGEMENT</button>
 </body>
 </html>
 
 <script>
 	$('.supervise').click(function(){
 		location.href = "register";
+	})
+	$('.management').click(function(){
+		location.href = "management";
 	})
 </script>

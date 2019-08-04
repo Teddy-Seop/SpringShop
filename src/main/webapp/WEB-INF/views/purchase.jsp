@@ -17,25 +17,32 @@
 <body>
 	<jsp:include page="top.jsp" />
 	
-	<div class="gender">
-		<div class="man"><h2>MAN</h2></div>
-		<div class="woman"><h2>WOMAN</h2></div>
-	</div>
-	<div class="target">
-		<c:forEach var="product" items="${productList}">
-			<div><img src="images/${product.image}" /></div>
-			<div>${product.name}</div>
-			<div>${product.price}</div>
-		</c:forEach>
-	</div>
+	<div><img src="../../images/${product.image}" /></div>
+	<div>${product.brand }</div>
+	<div>${product.name }</div>
+	<div>${product.price }</div>
+	<form action="purchaseProcessing" method="POST">
+		<input type="hidden" value=${product.no} name="no">
+		<table>
+			<tr>
+				<th>구매자 정보 작성</th>
+			</tr>
+			<tr>
+				<td><label>ID</label></td>
+				<td><input type="text" value="${user.id}" name="id" readonly></td>
+			</tr>
+			<tr>
+				<td><label>ADDRESS</label></td>
+				<td><input type="text" value="${user.address}" name="address"></td>
+			</tr>
+			<tr>
+				<td><label>PHONE</label></td>
+				<td><input type="text" value="${user.phone}" name="phone"></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="PURCHASE"></td>
+			</tr>
+		</table>
+	</form>
 </body>
 </html>
-
-<script>
-	$('.man').click(function(){
-		location.href = "list/man"
-	})
-	$('.woman').click(function(){
-		location.href = "list/woman"
-	})
-</script>

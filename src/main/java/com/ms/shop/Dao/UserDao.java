@@ -7,11 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.ms.shop.Vo.ProductVo;
 import com.ms.shop.Vo.UserVo;
 
-@Repository
-public class ShopDao implements IShopDao {
+@Repository("UserDao")
+public class UserDao {
 
 	JdbcTemplate template;
 	
@@ -23,29 +22,20 @@ public class ShopDao implements IShopDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private String Namespace = "com.ms.shop.Dao.IShopDao";
+	private String Namespace = "com.ms.shop.Dao.UserDao";
 
-	@Override
 	public List<UserVo> loginCheck(String id) throws Exception {
 		
 		return sqlSession.selectList(Namespace + ".loginCheck", id);
 	}
 
-	@Override
 	public void signUp(UserVo user) throws Exception {
 		
 		sqlSession.insert(Namespace + ".signUp", user);
 	}
-
-	@Override
-	public List<ProductVo> productList() throws Exception {
+	
+	public List<UserVo> userInfo(String id) throws Exception {
 		
-		return sqlSession.selectList(Namespace + ".productList");
-	}
-
-	@Override
-	public void productRegister(ProductVo product) throws Exception {
-		
-		sqlSession.insert(Namespace + ".productRegister", product);
+		return sqlSession.selectList(Namespace + ".userInfo", id);
 	}
 }

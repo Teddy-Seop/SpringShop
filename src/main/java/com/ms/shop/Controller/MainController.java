@@ -2,27 +2,42 @@ package com.ms.shop.Controller;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.ms.shop.Dao.ShopDao;
+import com.ms.shop.Dao.OrderDao;
+import com.ms.shop.Dao.ProductDao;
+import com.ms.shop.Dao.UserDao;
+import com.ms.shop.Vo.OrderVo;
 import com.ms.shop.Vo.ProductVo;
 import com.ms.shop.Vo.UserVo;
 
 @Controller
 public class MainController {
 
-	ShopDao shopDao;
+	ProductDao productDao;
+	UserDao userDao;
+	OrderDao orderDao;
 	
 	@Autowired
-	public void setDao(ShopDao dao) {
-		this.shopDao = dao;
+	public void setDao(ProductDao dao) {
+		this.productDao = dao;
+	}
+	
+	@Autowired
+	public void setDao(UserDao dao) {
+		this.userDao = dao;
+	}
+	
+	@Autowired
+	public void setDao(OrderDao dao) {
+		this.orderDao = dao;
 	}
 	
 	//초기 페이지
@@ -34,7 +49,7 @@ public class MainController {
 	
 	//로그인 페이지
 	@RequestMapping("/SignIn")
-	public String SignIn(Model model, HttpServletRequest request) {
+	public String SignIn(Model model, HttpServletRequest request) throws Exception {
 		
 		return "SignIn";
 	}
@@ -46,7 +61,7 @@ public class MainController {
 		String u_id = request.getParameter("id");
 		String u_pw = request.getParameter("pw");
 
-		List<UserVo> user = shopDao.loginCheck(u_id);
+		List<UserVo> user = userDao.loginCheck(u_id);
 		String id = user.get(0).getId();
 		String pw = user.get(0).getPw();
 		int power = user.get(0).getPower();
@@ -89,9 +104,9 @@ public class MainController {
 		user.setPhone(phone);
 		user.setAddress(address);
 		user.setPower(power);
-			
-		shopDao.signUp(user);
-			
+		
+		userDao.signUp(user);
+		
 		return "redirect:SignIn";
 	}
 	
@@ -102,11 +117,83 @@ public class MainController {
 		if(session.getAttribute("login") != null) {
 			
 			//제품 출력
-			List<ProductVo> productList = shopDao.productList();
+			List<ProductVo> productList = productDao.productList();
 			model.addAttribute("productList", productList);
 			return "Main";
 		}
 		
+		return "err";
+	}
+	
+	//성별별 리스트
+	@RequestMapping("/list/{gender}")
+	public String list(Model model, HttpSession session, @PathVariable String gender) throws Exception{
+		
+		if(session.getAttribute("login") != null) {
+			
+			//제품 출력
+			List<ProductVo> productList = productDao.productListGender(gender);
+			model.addAttribute("productList", productList);
+			
+			return "list";
+		}
+		return "err";
+	}
+	
+	//상품 상세보기 페이지
+	@RequestMapping("/detail/{no}")
+	public String detail(Model model, HttpSession session, @PathVariable int no) throws Exception{
+		
+		if(session.getAttribute("login") != null) {
+			
+			//제품 출력
+			List<ProductVo> product = productDao.productDetail(no);
+			model.addAttribute("product", product.get(0));
+			
+			return "detail";
+		}
+		return "err";
+	}
+	
+	//구매 페이지
+	@RequestMapping("/detail/{no}/purchase")
+	public String purchase(Model model, HttpSession session, @PathVariable int no) throws Exception{
+		
+		if(session.getAttribute("login") != null) {
+			
+			//제품 정보
+			List<ProductVo> product = productDao.productDetail(no);
+			model.addAttribute("product", product.get(0));
+			
+			//사용자 정보
+			List<UserVo> user = userDao.userInfo((String)session.getAttribute("login"));
+			model.addAttribute("user", user.get(0));
+			
+			return "purchase";
+		}
+		return "err";
+	}
+	
+	//구매 처리
+	@RequestMapping("/detail/{no}/purchaseProcessing")
+	public String purchaseProcessing(Model model, HttpSession session, HttpServletRequest request, @PathVariable int no) throws Exception{
+		
+		if(session.getAttribute("login") != null) {
+			
+			String id = request.getParameter("id");
+			String address = request.getParameter("address");
+			String phone = request.getParameter("phone");
+			
+			OrderVo info = new OrderVo();
+			info.setNo(no);
+			info.setId(id);
+			info.setAddress(address);
+			info.setPhone(phone);
+			
+			orderDao.insertPurchase(info);
+			
+			return "redirect:/Main";
+		}
 		return "err";
 	}
 }

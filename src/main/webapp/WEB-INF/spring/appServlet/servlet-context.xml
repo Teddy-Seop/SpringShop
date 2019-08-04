@@ -16,9 +16,9 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/images/**" location="/resources/images/" />
     <resources mapping="/css/**" location="/resources/css/" /> 
     <resources mapping="/js/**" location="/resources/js/" />
-    <resources mapping="/images/**" location="/resources/images/" />
     <resources mapping="/jsp/**" location="/resources/jsp/" />
     
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
@@ -41,10 +41,17 @@
 		<beans:property name="dataSource" ref="dataSource"/>
 	</beans:bean>
 
-	<beans:bean name="dao" class="com.ms.shop.Dao.ShopDao">
+	<beans:bean id="ProductDao" class="com.ms.shop.Dao.ProductDao">
 		<beans:property name="template" ref="template"></beans:property>
 	</beans:bean>
 	
+	<beans:bean id="UserDao" class="com.ms.shop.Dao.UserDao">
+		<beans:property name="template" ref="template"></beans:property>
+	</beans:bean>
+	
+	<beans:bean id="OrderDao" class="com.ms.shop.Dao.OrderDao">
+		<beans:property name="template" ref="template"></beans:property>
+	</beans:bean>
 	
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<beans:property name="dataSource" ref="dataSource"></beans:property>

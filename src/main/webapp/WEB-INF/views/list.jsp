@@ -17,25 +17,12 @@
 <body>
 	<jsp:include page="top.jsp" />
 	
-	<div class="gender">
-		<div class="man"><h2>MAN</h2></div>
-		<div class="woman"><h2>WOMAN</h2></div>
-	</div>
 	<div class="target">
 		<c:forEach var="product" items="${productList}">
-			<div><img src="images/${product.image}" /></div>
-			<div>${product.name}</div>
+			<div><a href="/shop/detail/${product.no}"><img src="../images/${product.image}" /></a></div>
+			<div><a href="/shop/detail/${product.no}">${product.name}</a></div>
 			<div>${product.price}</div>
 		</c:forEach>
 	</div>
 </body>
 </html>
-
-<script>
-	$('.man').click(function(){
-		location.href = "list/man"
-	})
-	$('.woman').click(function(){
-		location.href = "list/woman"
-	})
-</script>
