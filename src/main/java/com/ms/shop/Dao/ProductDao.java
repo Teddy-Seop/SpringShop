@@ -39,9 +39,9 @@ public class ProductDao implements IProductDao {
 	}
 	
 	@Override
-	public List<ProductVo> productDetail(int no) throws Exception {
+	public ProductVo productDetail(int no) throws Exception {
 		
-		return sqlSession.selectList(Namespace + ".productDetail", no);
+		return sqlSession.selectOne(Namespace + ".productDetail", no);
 	}
 	
 	@Override
@@ -60,5 +60,11 @@ public class ProductDao implements IProductDao {
 	public void productManagement(Map<String, String> map) throws Exception {
 		
 		sqlSession.update(Namespace + ".productManagement", map);
+	}
+
+	@Override
+	public void productStock(int no) throws Exception {
+		
+		sqlSession.update(Namespace + ".productStock", no);
 	}
 }

@@ -131,9 +131,12 @@ public class SellerController {
 			while(e.hasMoreElements()) {
 				String no = (String) e.nextElement();
 				String status = request.getParameter(no);
+				String stock = request.getParameter("stock");
+				
 				Map<String, String> map = new HashMap<String, String>();
 				map.put("no", no);
 				map.put("status", status);
+				map.put("stock", stock);
 				
 				productDao.productManagement(map);
 			}

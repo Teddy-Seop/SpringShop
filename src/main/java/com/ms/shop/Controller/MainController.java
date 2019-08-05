@@ -1,6 +1,8 @@
 package com.ms.shop.Controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -147,8 +149,8 @@ public class MainController {
 		if(session.getAttribute("login") != null) {
 			
 			//제품 출력
-			List<ProductVo> product = productDao.productDetail(no);
-			model.addAttribute("product", product.get(0));
+			ProductVo product = productDao.productDetail(no);
+			model.addAttribute("product", product);
 			
 			return "detail";
 		}
@@ -162,8 +164,8 @@ public class MainController {
 		if(session.getAttribute("login") != null) {
 			
 			//제품 정보
-			List<ProductVo> product = productDao.productDetail(no);
-			model.addAttribute("product", product.get(0));
+			ProductVo product = productDao.productDetail(no);
+			model.addAttribute("product", product);
 			
 			//사용자 정보
 			List<UserVo> user = userDao.userInfo((String)session.getAttribute("login"));
@@ -184,6 +186,7 @@ public class MainController {
 			String address = request.getParameter("address");
 			String phone = request.getParameter("phone");
 			
+			//구매목록에 추가
 			OrderVo info = new OrderVo();
 			info.setNo(no);
 			info.setId(id);
@@ -191,6 +194,19 @@ public class MainController {
 			info.setPhone(phone);
 			
 			orderDao.insertPurchase(info);
+			
+			//상품 수량 변경
+			productDao.productStock(no);
+			
+			//상품의 수량이 0이 되었을 때 status off
+			if(productDao.productDetail(no).getStock() == 0) {
+				
+				Map map = new HashMap();
+				map.put("status", 0);
+				map.put("no", no);
+				
+				productDao.productManagement(map);
+			}
 			
 			return "redirect:/Main";
 		}
