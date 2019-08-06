@@ -5,8 +5,16 @@
 
 <mapper namespace="com.ms.shop.Dao.OrderDao">
 
-	<insert id="insertPurchase">
-		INSERT INTO purchase VALUES (#{no}, #{id}, #{address}, #{phone}, 0)
-	</insert>
+	<select id="brandPurchaseList" resultType="com.ms.shop.Vo.OrderVo">
+		SELECT * FROM purchase WHERE brand = #{brand} AND complete = 0
+	</select>
 
+	<insert id="insertPurchase">
+		INSERT INTO purchase VALUES (#{brand}, #{no}, #{id}, #{address}, #{phone}, 0, now())
+	</insert>
+	
+	<update id="handlingPurchase">
+		UPDATE purchase SET complete = 1 WHERE no = #{no}
+	</update>
+	
 </mapper>

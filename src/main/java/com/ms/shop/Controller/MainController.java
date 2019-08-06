@@ -182,12 +182,14 @@ public class MainController {
 		
 		if(session.getAttribute("login") != null) {
 			
+			String brand = request.getParameter("brand");
 			String id = request.getParameter("id");
 			String address = request.getParameter("address");
 			String phone = request.getParameter("phone");
 			
 			//구매목록에 추가
 			OrderVo info = new OrderVo();
+			info.setBrand(brand);
 			info.setNo(no);
 			info.setId(id);
 			info.setAddress(address);

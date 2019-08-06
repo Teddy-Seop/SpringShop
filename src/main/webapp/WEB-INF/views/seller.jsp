@@ -16,6 +16,7 @@
 <body>
 	<button class="supervise">SUPERVISE</button>
 	<button class="management">MANAGEMENT</button>
+	<button class="handling">HANDLING</button>
 </body>
 </html>
 
@@ -25,5 +26,8 @@
 	})
 	$('.management').click(function(){
 		location.href = "management";
+	})
+	$('.handling').click(function(){
+		location.href = "handling";
 	})
 </script>

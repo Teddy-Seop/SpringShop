@@ -24,8 +24,18 @@ JdbcTemplate template;
 	
 	String Namespace = "com.ms.shop.Dao.OrderDao";
 	
+	public List<OrderVo> brandPurchaseList(String brand) throws Exception{
+		
+		return sqlSession.selectList(Namespace + ".brandPurchaseList", brand);
+	}
+	
 	public void insertPurchase(OrderVo info) throws Exception {
 		
 		sqlSession.insert(Namespace + ".insertPurchase", info);
+	}
+	
+	public void handlingPurchase(int no) throws Exception{
+		
+		sqlSession.update(Namespace + ".handlingPurchase", no);
 	}
 }

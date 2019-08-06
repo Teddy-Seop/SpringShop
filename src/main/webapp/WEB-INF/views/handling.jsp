@@ -15,34 +15,31 @@
 
 </head>
 <body>
-	<jsp:include page="top.jsp" />
-	
-	<div><img src="../../images/${product.image}" /></div>
-	<div>${product.brand }</div>
-	<div>${product.name }</div>
-	<div>${product.price }</div>
-	<form action="purchaseProcessing" method="POST">
-		<input type="hidden" value="${product.brand}" name="brand">
-		<table>
+	<table>
 			<tr>
-				<th>구매자 정보 작성</th>
+				<th><label>NO</label></th>
+				<th><label>ID</label></th>
+				<th><label>ADDRESS</label></th>
+				<th><label>PHONE</label></th>
+				<th><label>HANDLING</label></th>
 			</tr>
-			<tr>
-				<td><label>ID</label></td>
-				<td><input type="text" value="${user.id}" name="id" readonly></td>
-			</tr>
-			<tr>
-				<td><label>ADDRESS</label></td>
-				<td><input type="text" value="${user.address}" name="address"></td>
-			</tr>
-			<tr>
-				<td><label>PHONE</label></td>
-				<td><input type="text" value="${user.phone}" name="phone"></td>
-			</tr>
-			<tr>
-				<td><input type="submit" value="PURCHASE"></td>
-			</tr>
+			<c:forEach var="item" items="${list}">
+				<tr>
+					<td>${item.no}</td>
+					<td>${item.id}</td>
+					<td>${item.address}</td>
+					<td>${item.phone}</td>
+					<td><button class="${item.no}">HANDLING</button></td>
+				</tr>
+			</c:forEach>
 		</table>
-	</form>
 </body>
 </html>
+
+<script>
+	<c:forEach var="item" items="${list}">
+		$('.' + ${item.no}).click(function(){
+			location.href = ${item.no} + "/handlingProcessing";
+		})
+	</c:forEach>
+</script>

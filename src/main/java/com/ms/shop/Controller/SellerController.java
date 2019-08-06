@@ -16,11 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ms.shop.Dao.OrderDao;
 import com.ms.shop.Dao.ProductDao;
 import com.ms.shop.Dao.UserDao;
+import com.ms.shop.Vo.OrderVo;
 import com.ms.shop.Vo.ProductVo;
 
 @Controller
@@ -28,6 +31,7 @@ public class SellerController {
 
 	ProductDao productDao;
 	UserDao userDao;
+	OrderDao orderDao;
 	
 	@Autowired
 	public void setDao(ProductDao dao) {
@@ -37,6 +41,11 @@ public class SellerController {
 	@Autowired
 	public void setDao(UserDao dao) {
 		this.userDao = dao;
+	}
+	
+	@Autowired
+	public void orderDao(OrderDao dao) {
+		this.orderDao = dao;
 	}
 	
 	//업로드 파일 경로
@@ -141,6 +150,34 @@ public class SellerController {
 				productDao.productManagement(map);
 			}
 			return "redirect:seller";
+		}
+		return "err";
+	}
+	
+	//구매목록 처리 페이지
+	@RequestMapping("/handling")
+	public String handling(Model model, HttpSession session) throws Exception{
+		
+		if(session.getAttribute("login") != null) {
+			
+			String brand = (String) session.getAttribute("login");
+			List<OrderVo> list = orderDao.brandPurchaseList(brand);
+			model.addAttribute("list", list);
+			
+			return "handling";
+		}
+		return "err";
+	}
+	
+	//구매목록 처리 페이지
+	@RequestMapping("/{no}/handlingProcessing")
+	public String handlingProcessing(Model model, HttpSession session, @PathVariable int no) throws Exception{
+			
+		if(session.getAttribute("login") != null) {
+				
+			orderDao.handlingPurchase(no);
+				
+			return "redirect:/handling";
 		}
 		return "err";
 	}

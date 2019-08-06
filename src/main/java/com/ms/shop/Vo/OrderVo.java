@@ -1,13 +1,23 @@
 package com.ms.shop.Vo;
 
+import java.util.Date;
+
 public class OrderVo {
 
+	private String brand;
 	private int no;
 	private String id;
 	private String address;
 	private String phone;
 	private int complete;
+	private Date date;
 	
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
 	public int getNo() {
 		return no;
 	}
@@ -37,5 +47,11 @@ public class OrderVo {
 	}
 	public void setComplete(int complete) {
 		this.complete = complete;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }
