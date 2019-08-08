@@ -154,7 +154,7 @@ public class SellerController {
 		return "err";
 	}
 	
-	//구매목록 처리 페이지
+	//구매목록 페이지
 	@RequestMapping("/handling")
 	public String handling(Model model, HttpSession session) throws Exception{
 		

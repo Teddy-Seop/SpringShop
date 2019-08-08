@@ -5,12 +5,28 @@
 
 <mapper namespace="com.ms.shop.Dao.OrderDao">
 
+	<select id="customerPurchaseList" resultType="com.ms.shop.Vo.OrderVo">
+		SELECT * FROM purchase WHERE id = #{id}
+	</select>
+
 	<select id="brandPurchaseList" resultType="com.ms.shop.Vo.OrderVo">
 		SELECT * FROM purchase WHERE brand = #{brand} AND complete = 0
 	</select>
+	
+	<select id="customerPick" resultType="com.ms.shop.Vo.OrderVo">
+		SELECT * FROM pick WHERE id = #{id} AND no = #{no}
+	</select>
+	
+	<insert id="pick">
+		INSERT INTO pick VALUES (#{no}, #{id})
+	</insert>
+	
+	<delete id="unpick">
+		DELETE FROM pick WHERE id = #{id} AND no = #{no}
+	</delete>
 
 	<insert id="insertPurchase">
-		INSERT INTO purchase VALUES (#{brand}, #{no}, #{id}, #{address}, #{phone}, 0, now())
+		INSERT INTO purchase (brand, no, name, id, address, phone, complete, date) VALUES (#{brand}, #{no}, #{name}, #{id}, #{address}, #{phone}, 0, now())
 	</insert>
 	
 	<update id="handlingPurchase">

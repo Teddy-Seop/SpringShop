@@ -20,11 +20,63 @@
 	<div>${product.name}</div>
 	<div>${product.price}</div>
 	<button class="purchase">PURCHASE</button>
+	<button class="unpick">
+		<span class="glyphicon glyphicon-star-empty"></span>
+	</button>
+	<button class="pick">
+		<span class="glyphicon glyphicon-star"></span>
+	</button>
 </body>
 </html>
 
 <script>
 	$('.purchase').click(function(){
 		location.href = ${product.no} + "/purchase";
+	})
+	//PICK, UNPICK
+	var check;
+	var pick = new Array();
+	pick.push(${pick.no});
+
+	if(pick[0] != null){
+		$('.unpick').css("display", "none");
+		check = "pick";
+	}else{
+		$('.pick').css("display", "none");
+		check = "unpick";
+	}
+	
+	//ajax test
+	$('.pick').click(function(check){
+		$.ajax({
+			data: "pick",
+			type: "POST",
+			dataType: "text"
+		})
+		.done(function(result){
+			console.log("1");
+			$('.pick').css("display", "none");
+			$('.unpick').css("display", "block");
+			check = "pick";
+		})
+		.always(function(){
+			console.log("always1");
+		})
+	})
+	$('.unpick').click(function(check){
+		$.ajax({
+			data: "unpick",
+			type: "POST",
+			dataType:"text"
+		})
+		.done(function(result){
+			console.log("2");
+			$('.pick').css("display", "block");
+			$('.unpick').css("display", "none");
+			check = "unpick";
+		})
+		.always(function(){
+			console.log("always2");
+		})
 	})
 </script>

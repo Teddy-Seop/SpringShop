@@ -4,14 +4,22 @@ import java.util.Date;
 
 public class OrderVo {
 
+	private int purchaseno;
 	private String brand;
 	private int no;
+	private String name;
 	private String id;
 	private String address;
 	private String phone;
 	private int complete;
 	private Date date;
 	
+	public int getPurchaseno() {
+		return purchaseno;
+	}
+	public void setPurchaseno(int purchaseno) {
+		this.purchaseno = purchaseno;
+	}
 	public String getBrand() {
 		return brand;
 	}
@@ -23,6 +31,12 @@ public class OrderVo {
 	}
 	public void setNo(int no) {
 		this.no = no;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getId() {
 		return id;

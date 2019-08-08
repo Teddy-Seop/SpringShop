@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ms.shop.Dao.OrderDao;
 import com.ms.shop.Dao.ProductDao;
@@ -112,6 +115,20 @@ public class MainController {
 		return "redirect:SignIn";
 	}
 	
+	//로그아웃
+	@RequestMapping("/logout")
+	public String logout(Model model, HttpSession session) throws Exception {
+		
+		if(session.getAttribute("login") != null) {
+			
+			session.removeAttribute("login");
+			
+			return "redirect:/";
+		}
+		
+		return "err";
+	}
+	
 	//메인 페이지
 	@RequestMapping("/Main")
 	public String Main(Model model, HttpSession session) throws Exception {
@@ -152,9 +169,35 @@ public class MainController {
 			ProductVo product = productDao.productDetail(no);
 			model.addAttribute("product", product);
 			
+			//찜
+			OrderVo info = new OrderVo();
+			info.setId((String) session.getAttribute("login"));
+			info.setNo(no);
+			OrderVo pick = orderDao.customerPick(info);
+			model.addAttribute("pick", pick);
+			
 			return "detail";
 		}
 		return "err";
+	}
+	
+	//찜 ajax
+	@ResponseBody
+	@RequestMapping(value="/detail/{no}", method=RequestMethod.POST)
+	public String pick(@RequestBody String check, HttpSession session, @PathVariable int no) throws Exception {
+		
+		System.out.println(check);
+		OrderVo info = new OrderVo();
+		info.setId((String) session.getAttribute("login"));
+		info.setNo(no);
+		if(check.equals("pick=")) {
+			System.out.println("1");
+			orderDao.unpick(info);
+		}else if(check.equals("unpick=")) {
+			System.out.println("2");
+			orderDao.pick(info);
+		}
+		return "test";
 	}
 	
 	//구매 페이지
@@ -183,6 +226,7 @@ public class MainController {
 		if(session.getAttribute("login") != null) {
 			
 			String brand = request.getParameter("brand");
+			String name = request.getParameter("name");
 			String id = request.getParameter("id");
 			String address = request.getParameter("address");
 			String phone = request.getParameter("phone");
@@ -190,6 +234,7 @@ public class MainController {
 			//구매목록에 추가
 			OrderVo info = new OrderVo();
 			info.setBrand(brand);
+			info.setName(name);
 			info.setNo(no);
 			info.setId(id);
 			info.setAddress(address);
@@ -211,6 +256,23 @@ public class MainController {
 			}
 			
 			return "redirect:/Main";
+		}
+		return "err";
+	}
+	
+	//마이페이지
+	@RequestMapping("/mypage")
+	public String mypage(Model model, HttpSession session) throws Exception{
+		if(session.getAttribute("login") != null) {
+			
+			//구매목록 출력
+			String id = (String) session.getAttribute("login");
+			List<OrderVo> purchase = orderDao.customerPurchaseList(id);
+			model.addAttribute("purchase", purchase);
+			
+			//찜목록 출력
+			
+			return "mypage";
 		}
 		return "err";
 	}

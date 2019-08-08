@@ -23,6 +23,7 @@
 	<div>${product.price }</div>
 	<form action="purchaseProcessing" method="POST">
 		<input type="hidden" value="${product.brand}" name="brand">
+		<input type="hidden" value="${product.name}" name="name">
 		<table>
 			<tr>
 				<th>구매자 정보 작성</th>

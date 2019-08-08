@@ -24,9 +24,29 @@ JdbcTemplate template;
 	
 	String Namespace = "com.ms.shop.Dao.OrderDao";
 	
-	public List<OrderVo> brandPurchaseList(String brand) throws Exception{
+	public List<OrderVo> customerPurchaseList(String id) throws Exception {
+		
+		return sqlSession.selectList(Namespace + ".customerPurchaseList", id);
+	}
+	
+	public List<OrderVo> brandPurchaseList(String brand) throws Exception {
 		
 		return sqlSession.selectList(Namespace + ".brandPurchaseList", brand);
+	}
+	
+	public OrderVo customerPick(OrderVo info) throws Exception {
+		
+		return sqlSession.selectOne(Namespace + ".customerPick", info);
+	}
+	
+	public void pick(OrderVo info) throws Exception {
+		
+		sqlSession.insert(Namespace + ".pick", info);
+	}
+	
+	public void unpick(OrderVo info) throws Exception {
+		
+		sqlSession.delete(Namespace + ".unpick", info);
 	}
 	
 	public void insertPurchase(OrderVo info) throws Exception {
@@ -34,7 +54,7 @@ JdbcTemplate template;
 		sqlSession.insert(Namespace + ".insertPurchase", info);
 	}
 	
-	public void handlingPurchase(int no) throws Exception{
+	public void handlingPurchase(int no) throws Exception {
 		
 		sqlSession.update(Namespace + ".handlingPurchase", no);
 	}

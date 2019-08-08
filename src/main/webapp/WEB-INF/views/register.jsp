@@ -14,6 +14,8 @@
 
 </head>
 <body>
+	<jsp:include page="top.jsp" />
+	
 	<form action="registerProcessing" method="POST" enctype="multipart/form-data">
 		<table>
 			<th>REGISTER PRODUCT</th>

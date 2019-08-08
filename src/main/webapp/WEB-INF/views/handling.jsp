@@ -15,8 +15,11 @@
 
 </head>
 <body>
+	<jsp:include page="top.jsp" />
+	
 	<table>
 			<tr>
+				<th><label>PURCHASE-NO</label></th>
 				<th><label>NO</label></th>
 				<th><label>ID</label></th>
 				<th><label>ADDRESS</label></th>
@@ -25,6 +28,7 @@
 			</tr>
 			<c:forEach var="item" items="${list}">
 				<tr>
+					<td>${item.purchaseno}</td>
 					<td>${item.no}</td>
 					<td>${item.id}</td>
 					<td>${item.address}</td>

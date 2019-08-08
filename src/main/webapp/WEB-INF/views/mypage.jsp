@@ -17,41 +17,22 @@
 <body>
 	<jsp:include page="top.jsp" />
 	
-	<form action="managementProcessing" method="POST">
-		<table class="target">
+	<!-- 구매목록 -->
+	<table>
+		<tr>
+			<th>PURCHASE-NO</th>
+			<th>PRODUCT</th>
+			<th>STATE</th>
+			<th>DATE</th>
+		</tr>
+		<c:forEach var="item" items="${purchase}">
 			<tr>
-				<th>NAME</th>
-				<th>STATUS</th>
-				<th>STOCK</th>
+				<td>${item.purchaseno}</td>
+				<td>${item.name}</td>
+				<td>${item.complete}</td>
+				<td>${item.date}</td>
 			</tr>
-			<c:forEach var="item" items="${managementList}" >
-				<tr>
-					<td>${item.name}</td>
-					<td class="${item.no}">
-						<input type="radio" class="on" name="${item.no}" value=1>ON
-						<input type="radio" class="off" name="${item.no}" value=0>OFF
-					</td>
-					<td>
-						<input type="text" name="stock" value="${item.stock}">
-					</td>
-				</tr>
-			</c:forEach>
-			<tr>
-				<td><input type="submit" value="SAVE"></td>
-			</tr>
-		</table>
-	</form>
+		</c:forEach>
+	</table>
 </body>
 </html>
-
-<script>
-	<c:forEach var="item" items="${managementList}">
-		var item = ${item.getStatus()}
-		
-		if(item == 0){
-			$('.' + ${item.getNo()} + '> .off').prop("checked", true);
-		}else{
-			$('.' + ${item.getNo()} + '> .on').prop("checked", true);
-		}
-	</c:forEach>
-</script>
