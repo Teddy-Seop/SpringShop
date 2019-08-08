@@ -138,16 +138,23 @@ public class SellerController {
 			
 			Enumeration e = request.getParameterNames();
 			while(e.hasMoreElements()) {
-				String no = (String) e.nextElement();
-				String status = request.getParameter(no);
-				String stock = request.getParameter("stock");
-				
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("no", no);
-				map.put("status", status);
-				map.put("stock", stock);
-				
-				productDao.productManagement(map);
+				String sNo = (String) e.nextElement();
+				if(sNo.length() == 1) {
+					
+					String sStatus = request.getParameter(sNo);
+					String sStock = request.getParameter("stock" + sNo);
+					
+					Map<String, Integer> map = new HashMap<String, Integer>();
+					int no = Integer.parseInt(sNo);
+					int status = Integer.parseInt(sStatus);
+					int stock = Integer.parseInt(sStock);
+					
+					map.put("no", no);
+					map.put("status", status);
+					map.put("stock", stock);
+					
+					productDao.productManagement(map);
+				}
 			}
 			return "redirect:seller";
 		}
@@ -170,12 +177,12 @@ public class SellerController {
 	}
 	
 	//구매목록 처리 페이지
-	@RequestMapping("/{no}/handlingProcessing")
-	public String handlingProcessing(Model model, HttpSession session, @PathVariable int no) throws Exception{
+	@RequestMapping("/{purchaseno}/handlingProcessing")
+	public String handlingProcessing(Model model, HttpSession session, @PathVariable int purchaseno) throws Exception{
 			
 		if(session.getAttribute("login") != null) {
 				
-			orderDao.handlingPurchase(no);
+			orderDao.handlingPurchase(purchaseno);
 				
 			return "redirect:/handling";
 		}

@@ -34,13 +34,11 @@
 		location.href = ${product.no} + "/purchase";
 	})
 	//PICK, UNPICK
-	var check;
 	var pick = new Array();
 	pick.push(${pick.no});
 
 	if(pick[0] != null){
 		$('.unpick').css("display", "none");
-		check = "pick";
 	}else{
 		$('.pick').css("display", "none");
 		check = "unpick";
@@ -57,7 +55,6 @@
 			console.log("1");
 			$('.pick').css("display", "none");
 			$('.unpick').css("display", "block");
-			check = "pick";
 		})
 		.always(function(){
 			console.log("always1");
@@ -73,7 +70,6 @@
 			console.log("2");
 			$('.pick').css("display", "block");
 			$('.unpick').css("display", "none");
-			check = "unpick";
 		})
 		.always(function(){
 			console.log("always2");

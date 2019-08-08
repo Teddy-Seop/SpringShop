@@ -33,7 +33,7 @@
 					<td>${item.id}</td>
 					<td>${item.address}</td>
 					<td>${item.phone}</td>
-					<td><button class="${item.no}">HANDLING</button></td>
+					<td><button class="${item.purchaseno}">HANDLING</button></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -42,8 +42,8 @@
 
 <script>
 	<c:forEach var="item" items="${list}">
-		$('.' + ${item.no}).click(function(){
-			location.href = ${item.no} + "/handlingProcessing";
+		$('.' + ${item.purchaseno}).click(function(){
+			location.href = ${item.purchaseno} + "/handlingProcessing";
 		})
 	</c:forEach>
 </script>

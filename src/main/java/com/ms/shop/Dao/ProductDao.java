@@ -57,7 +57,7 @@ public class ProductDao implements IProductDao {
 	}
 
 	@Override
-	public void productManagement(Map<String, String> map) throws Exception {
+	public void productManagement(Map<String, Integer> map) throws Exception {
 		
 		sqlSession.update(Namespace + ".productManagement", map);
 	}

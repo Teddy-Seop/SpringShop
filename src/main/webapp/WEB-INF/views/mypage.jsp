@@ -16,23 +16,63 @@
 </head>
 <body>
 	<jsp:include page="top.jsp" />
+	<div role="tabpanel">
+
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">PURCHASE</a></li>
+	    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">PICK</a></li>
+	  </ul>
 	
-	<!-- 구매목록 -->
-	<table>
-		<tr>
-			<th>PURCHASE-NO</th>
-			<th>PRODUCT</th>
-			<th>STATE</th>
-			<th>DATE</th>
-		</tr>
-		<c:forEach var="item" items="${purchase}">
-			<tr>
-				<td>${item.purchaseno}</td>
-				<td>${item.name}</td>
-				<td>${item.complete}</td>
-				<td>${item.date}</td>
-			</tr>
-		</c:forEach>
-	</table>
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+	    <div role="tabpanel" class="tab-pane active" id="purchase">
+	    	<!-- 구매목록 -->
+			<table>
+				<tr>
+					<th>PURCHASE-NO</th>
+					<th>PRODUCT</th>
+					<th>STATE</th>
+					<th>DATE</th>
+				</tr>
+				<c:forEach var="item" items="${purchase}">
+					<tr>
+						<td>${item.purchaseno}</td>
+						<td>${item.name}</td>
+						<td>${item.complete}</td>
+						<td>${item.date}</td>
+					</tr>
+				</c:forEach>
+			</table>
+	    </div>
+	    <div role="tabpanel" class="tab-pane" id="pick">
+	    	<!-- 찜 목록 -->
+			<table>
+				<tr>
+					<th>BRAND</th>
+					<th>IMAGE</th>
+					<th>NAME</th>
+					<th>PRICE</th>
+				</tr>
+				<c:forEach var="item" items="${productList}">
+					<tr>
+						<td>${item.brand}</td>
+						<td><img src="images/${item.image}" /></td>
+						<td>${item.name}</td>
+						<td>${item.price}</td>
+					</tr>
+				</c:forEach>
+			</table>
+	    </div>
+	  </div>
+	
+	</div>
 </body>
 </html>
+
+<script>
+	$('#myTab a').click(function (e) {
+	  e.preventDefault()
+	  $(this).tab('show')
+	})
+</script>

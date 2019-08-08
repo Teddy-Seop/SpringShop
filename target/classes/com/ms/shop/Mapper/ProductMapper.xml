@@ -32,6 +32,6 @@
 	</update>
 	
 	<update id="productStock">
-		UPDATE product SET stock = stock-1 WHERE no = #{no}
+		UPDATE product SET stock = stock-1, count = count + 1 WHERE no = #{no}
 	</update>
 </mapper>

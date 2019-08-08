@@ -32,7 +32,7 @@
 						<input type="radio" class="off" name="${item.no}" value=0>OFF
 					</td>
 					<td>
-						<input type="text" name="stock" value="${item.stock}">
+						<input type="text" name="stock${item.no}" value=${item.stock}>
 					</td>
 				</tr>
 			</c:forEach>

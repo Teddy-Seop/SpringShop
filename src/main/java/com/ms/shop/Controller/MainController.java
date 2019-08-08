@@ -1,5 +1,6 @@
 package com.ms.shop.Controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -173,7 +174,7 @@ public class MainController {
 			OrderVo info = new OrderVo();
 			info.setId((String) session.getAttribute("login"));
 			info.setNo(no);
-			OrderVo pick = orderDao.customerPick(info);
+			OrderVo pick = orderDao.havePick(info);
 			model.addAttribute("pick", pick);
 			
 			return "detail";
@@ -242,17 +243,19 @@ public class MainController {
 			
 			orderDao.insertPurchase(info);
 			
-			//상품 수량 변경
-			productDao.productStock(no);
-			
 			//상품의 수량이 0이 되었을 때 status off
 			if(productDao.productDetail(no).getStock() == 0) {
 				
-				Map map = new HashMap();
+				Map map = new HashMap<String, Integer>();
 				map.put("status", 0);
+				map.put("stock", 0);
 				map.put("no", no);
 				
 				productDao.productManagement(map);
+			}else {
+				
+				//상품 수량 변경
+				productDao.productStock(no);
 			}
 			
 			return "redirect:/Main";
@@ -271,6 +274,15 @@ public class MainController {
 			model.addAttribute("purchase", purchase);
 			
 			//찜목록 출력
+			List<OrderVo> pick = orderDao.customerPick(id);
+			List<ProductVo> productList = new ArrayList<ProductVo>();
+			for(int i=0; i<pick.size(); i++) {
+				System.out.println(pick.get(i).getNo());
+				int no = pick.get(i).getNo();
+				ProductVo product = productDao.productDetail(no);
+				productList.add(product);
+			}
+			model.addAttribute("productList", productList);
 			
 			return "mypage";
 		}

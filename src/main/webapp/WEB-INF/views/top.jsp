@@ -31,7 +31,7 @@
 			</ul>
 		</div>
 		<button class="open">MENU</button>
-		<h1>KIEZEN</h1>
+		<h1 class="main">KIEZEN</h1>
 	</div>
 </body>
 </html>
@@ -43,6 +43,11 @@
 	})
 	$('.close').click(function(){
 		$('.menu').animate({left:'-500px'}, 300);
+	})
+	
+	//메인페이지 이동
+	$('.main').click(function(){
+		location.href = "/shop/Main";
 	})
 	
 	//마이페이지 이동

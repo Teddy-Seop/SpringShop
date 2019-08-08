@@ -34,9 +34,14 @@ JdbcTemplate template;
 		return sqlSession.selectList(Namespace + ".brandPurchaseList", brand);
 	}
 	
-	public OrderVo customerPick(OrderVo info) throws Exception {
+	public OrderVo havePick(OrderVo info) throws Exception {
 		
-		return sqlSession.selectOne(Namespace + ".customerPick", info);
+		return sqlSession.selectOne(Namespace + ".havePick", info);
+	}
+	
+	public List<OrderVo> customerPick(String id) throws Exception {
+		
+		return sqlSession.selectList(Namespace + ".customerPick", id);
 	}
 	
 	public void pick(OrderVo info) throws Exception {
@@ -54,8 +59,8 @@ JdbcTemplate template;
 		sqlSession.insert(Namespace + ".insertPurchase", info);
 	}
 	
-	public void handlingPurchase(int no) throws Exception {
+	public void handlingPurchase(int purchaseno) throws Exception {
 		
-		sqlSession.update(Namespace + ".handlingPurchase", no);
+		sqlSession.update(Namespace + ".handlingPurchase", purchaseno);
 	}
 }

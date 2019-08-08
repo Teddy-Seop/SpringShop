@@ -13,8 +13,12 @@
 		SELECT * FROM purchase WHERE brand = #{brand} AND complete = 0
 	</select>
 	
-	<select id="customerPick" resultType="com.ms.shop.Vo.OrderVo">
+	<select id="havePick" resultType="com.ms.shop.Vo.OrderVo">
 		SELECT * FROM pick WHERE id = #{id} AND no = #{no}
+	</select>
+	
+	<select id="customerPick" resultType="com.ms.shop.Vo.OrderVo">
+		SELECT * FROM pick WHERE id = #{id}
 	</select>
 	
 	<insert id="pick">
@@ -30,7 +34,7 @@
 	</insert>
 	
 	<update id="handlingPurchase">
-		UPDATE purchase SET complete = 1 WHERE no = #{no}
+		UPDATE purchase SET complete = 1 WHERE purchaseno = #{purchaseno}
 	</update>
 	
 </mapper>

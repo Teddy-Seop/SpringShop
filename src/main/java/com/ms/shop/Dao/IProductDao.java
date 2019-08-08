@@ -13,6 +13,6 @@ public interface IProductDao {
 	public ProductVo productDetail(int no) throws Exception;
 	public void productRegister(ProductVo product) throws Exception;
 	public List<ProductVo> managementList(String brand) throws Exception;
-	public void productManagement(Map<String, String> map) throws Exception;
+	public void productManagement(Map<String, Integer> map) throws Exception;
 	public void productStock(int no) throws Exception;
 }
