@@ -18,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ms.shop.Dao.OrderDao;
@@ -159,6 +161,21 @@ public class SellerController {
 			return "redirect:seller";
 		}
 		return "err";
+	}
+	
+	//상품 관리 삭제 ajax
+	@ResponseBody
+	@RequestMapping(value="/management/del/{no}")
+	public String management(@PathVariable int no, HttpSession session) throws Exception{
+		
+		//상품 삭제
+		//이미지 삭제
+		ProductVo product = productDao.productDetail(no);
+		File file = new File(uploadPath, product.getImage());
+		file.delete();
+		productDao.productDelete(no); //DB에서 상품 삭제
+		
+		return "Success";
 	}
 	
 	//구매목록 페이지

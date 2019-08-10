@@ -23,9 +23,10 @@
 				<th>NAME</th>
 				<th>STATUS</th>
 				<th>STOCK</th>
+				<th>DELETE</th>
 			</tr>
 			<c:forEach var="item" items="${managementList}" >
-				<tr>
+				<tr class="tr${item.no}">
 					<td>${item.name}</td>
 					<td class="${item.no}">
 						<input type="radio" class="on" name="${item.no}" value=1>ON
@@ -34,6 +35,7 @@
 					<td>
 						<input type="text" name="stock${item.no}" value=${item.stock}>
 					</td>
+					<td><button type="button" class="del${item.no}">DELETE</button></td>
 				</tr>
 			</c:forEach>
 			<tr>
@@ -49,9 +51,20 @@
 		var item = ${item.getStatus()}
 		
 		if(item == 0){
-			$('.' + ${item.getNo()} + '> .off').prop("checked", true);
+			$('.${item.getNo()} > .off').prop("checked", true);
 		}else{
-			$('.' + ${item.getNo()} + '> .on').prop("checked", true);
+			$('.${item.getNo()} > .on').prop("checked", true);
 		}
+		
+		var data = ${item.no};
+		$('.del${item.no}').click(function(){
+			$.ajax({
+				url: "/shop/management/del/${item.no}",
+				type: "GET"
+			})
+			.done(function(result){
+				$('.tr${item.no}').remove();
+			})
+		})
 	</c:forEach>
 </script>

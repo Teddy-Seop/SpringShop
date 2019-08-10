@@ -34,4 +34,8 @@
 	<update id="productStock">
 		UPDATE product SET stock = stock-1, count = count + 1 WHERE no = #{no}
 	</update>
+	
+	<delete id="productDelete">
+		DELETE FROM product WHERE no = #{no}
+	</delete>
 </mapper>

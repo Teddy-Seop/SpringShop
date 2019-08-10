@@ -67,4 +67,10 @@ public class ProductDao implements IProductDao {
 		
 		sqlSession.update(Namespace + ".productStock", no);
 	}
+
+	@Override
+	public void productDelete(int no) throws Exception {
+		
+		sqlSession.delete(Namespace + ".productDelete", no);
+	}
 }

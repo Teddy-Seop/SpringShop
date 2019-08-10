@@ -15,4 +15,5 @@ public interface IProductDao {
 	public List<ProductVo> managementList(String brand) throws Exception;
 	public void productManagement(Map<String, Integer> map) throws Exception;
 	public void productStock(int no) throws Exception;
+	public void productDelete(int no) throws Exception;
 }
