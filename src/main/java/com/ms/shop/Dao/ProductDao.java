@@ -39,6 +39,12 @@ public class ProductDao implements IProductDao {
 	}
 	
 	@Override
+	public List<ProductVo> productListCategory(ProductVo info) throws Exception {
+		
+		return sqlSession.selectList(Namespace + ".productListCategory", info);
+	}
+	
+	@Override
 	public ProductVo productDetail(int no) throws Exception {
 		
 		return sqlSession.selectOne(Namespace + ".productDetail", no);

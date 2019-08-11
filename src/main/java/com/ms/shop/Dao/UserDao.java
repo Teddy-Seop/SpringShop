@@ -38,4 +38,14 @@ public class UserDao {
 		
 		return sqlSession.selectList(Namespace + ".userInfo", id);
 	}
+	
+	public UserVo kakaoUser(String id) throws Exception {
+		
+		return sqlSession.selectOne(Namespace + ".kakaoUser", id);
+	}
+	
+	public void kakaoSignUp(UserVo user) throws Exception {
+		
+		sqlSession.insert(Namespace + ".kakaoSignUp", user);
+	} 
 }

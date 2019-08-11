@@ -19,10 +19,9 @@
 	
 	<div class="target">
 		<c:forEach var="product" items="${productList}">
-			<div><a href="/shop/detail/${product.no}"><img src="../images/${product.image}" /></a></div>
+			<div><a href="/shop/detail/${product.no}"><img src="${pageContext.request.contextPath}/images/${product.image}" /></a></div>
 			<div><a href="/shop/detail/${product.no}">${product.name}</a></div>
 			<div>${product.price}</div>
 		</c:forEach>
 	</div>
 </body>
-</html>

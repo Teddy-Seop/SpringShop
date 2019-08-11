@@ -16,4 +16,12 @@
 	<insert id="signUp">
 		INSERT INTO user VALUES (#{id}, #{pw}, #{name}, #{phone}, #{address}, #{power})
 	</insert>
+	
+	<select id="kakaoUser" resultType="com.ms.shop.Vo.UserVo">
+		SELECT * FROM kakaoUser WHERE id = #{id}
+	</select>
+	
+	<insert id="kakaoSignUp">
+		INSERT INTO kakaoUser VALUES (#{id}, #{name}, #{phone}, #{address})
+	</insert>
 </mapper>

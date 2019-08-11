@@ -16,7 +16,7 @@
 <body>
 	<jsp:include page="top.jsp" />
 	
-	<div><img src="../images/${product.image}" /></div>
+	<div><img src="${pageContext.request.contextPath}/images/${product.image}" /></div>
 	<div>${product.name}</div>
 	<div>${product.price}</div>
 	<button class="purchase">PURCHASE</button>

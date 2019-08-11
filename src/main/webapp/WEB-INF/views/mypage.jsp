@@ -57,7 +57,7 @@
 				<c:forEach var="item" items="${productList}">
 					<tr>
 						<td>${item.brand}</td>
-						<td><img src="images/${item.image}" /></td>
+						<td><img src="${pageContext.request.contextPath}/images/${item.image}" /></td>
 						<td>${item.name}</td>
 						<td>${item.price}</td>
 					</tr>

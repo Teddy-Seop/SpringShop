@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,6 +53,10 @@ public class SellerController {
 	//업로드 파일 경로
 	@Resource(name = "uploadPath")
 	private String uploadPath;
+	
+	//resources 읽어오는 인터페이스
+	@Autowired
+    ResourceLoader resourceLoader;
 	
 	//판매자 초기 페이지
 	@RequestMapping("/seller")

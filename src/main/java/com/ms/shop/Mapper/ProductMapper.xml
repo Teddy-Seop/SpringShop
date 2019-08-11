@@ -13,6 +13,10 @@
 		SELECT * FROM product WHERE status = 1 AND gender = #{gender}
 	</select>
 	
+	<select id="productListCategory" resultType="com.ms.shop.Vo.ProductVo">
+		SELECT * FROM product WHERE status = 1 AND gender = #{gender} AND category = #{category}
+	</select>
+	
 	<select id="productDetail" resultType="com.ms.shop.Vo.ProductVo">
 		SELECT * FROM product WHERE no = #{no}
 	</select>

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ms.shop.Dao.OrderDao;
 import com.ms.shop.Dao.ProductDao;
@@ -85,6 +87,50 @@ public class MainController {
 		return "err";
 	}
 	
+	//카카오 로그인
+	@RequestMapping("/kakaoLogin/{id:.+}")
+	public String kakaoLogin(Model model, HttpSession session, @PathVariable String id) throws Exception {
+		
+		UserVo user = userDao.kakaoUser(id);
+		if(user != null) { //카카오 계정으로 가입이 되어있을때
+			
+			session.setAttribute("login", id);
+			return "redirect:/Main";
+		}else { //카카오 계정으로 가입이 되어있지 않을때
+			
+			return "redirect:/kakaoSignUp/" + id;
+		}
+	}
+	
+	//카카오 회원가입
+	@RequestMapping("/kakaoSignUp/{id:.+}")
+	public String kakaoSignUp(Model model, @PathVariable String id) throws Exception{
+		
+		model.addAttribute("id", id);
+		
+		return "kakaoSignUp";
+	}
+	
+	//카카오 회원가입 처리
+	@RequestMapping(value="/kakaoSignUp/{id:.+}", method=RequestMethod.POST)
+	public String kakaoSignUpProcessing(Model model, HttpServletRequest request) throws Exception{
+		
+		String id = request.getParameter("id");
+		String name = request.getParameter("name");
+		String phone = request.getParameter("phone");
+		String address = request.getParameter("address");
+		
+		UserVo user = new UserVo();
+		user.setId(id);
+		user.setName(name);
+		user.setPhone(phone);
+		user.setAddress(address);
+		
+		userDao.kakaoSignUp(user);
+		
+		return "redirect:/SignIn";
+	}
+	
 	//회원가입 페이지
 	@RequestMapping("/SignUp")
 	public String SignUp(Model model) throws Exception {
@@ -136,9 +182,9 @@ public class MainController {
 		
 		if(session.getAttribute("login") != null) {
 			
-			//제품 출력
-			List<ProductVo> productList = productDao.productList();
-			model.addAttribute("productList", productList);
+//			//제품 출력
+//			List<ProductVo> productList = productDao.productList();
+//			model.addAttribute("productList", productList);
 			return "Main";
 		}
 		
@@ -147,12 +193,30 @@ public class MainController {
 	
 	//성별별 리스트
 	@RequestMapping("/list/{gender}")
-	public String list(Model model, HttpSession session, @PathVariable String gender) throws Exception{
+	public String genderList(Model model, HttpSession session, @PathVariable String gender) throws Exception{
 		
 		if(session.getAttribute("login") != null) {
 			
 			//제품 출력
 			List<ProductVo> productList = productDao.productListGender(gender);
+			model.addAttribute("productList", productList);
+			
+			return "list";
+		}
+		return "err";
+	}
+	
+	//카테고리별 리스트
+	@RequestMapping("/list/{gender}/{category}")
+	public String categoryList(Model model, HttpSession session, @PathVariable String gender, @PathVariable String category) throws Exception{
+		
+		if(session.getAttribute("login") != null) {
+			
+			//제품 출력
+			ProductVo info = new ProductVo();
+			info.setGender(gender);
+			info.setCategory(category);
+			List<ProductVo> productList = productDao.productListCategory(info);
 			model.addAttribute("productList", productList);
 			
 			return "list";
