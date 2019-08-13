@@ -12,9 +12,9 @@
 	.menu{
 		float:left;
 		border:0.1em solid #cccccc; 
-		width:50%; 
+		width:30%; 
 		height:100%;
-		left:-500px; 
+		left:-1500px; 
 		position:absolute; 
 		background-color:white;
 	}
@@ -30,7 +30,7 @@
 			</ul>
 		</div>
 		<button class="open">MENU</button>
-		<h1 class="main">KIEZEN</h1>
+		<h1 class="main">KOHO</h1>
 	</div>
 </body>
 </html>
@@ -41,7 +41,7 @@
 		$('.menu').animate({left:0}, 300);
 	})
 	$('.close').click(function(){
-		$('.menu').animate({left:'-500px'}, 300);
+		$('.menu').animate({left:'-1500px'}, 300);
 	})
 	
 	//메인페이지 이동

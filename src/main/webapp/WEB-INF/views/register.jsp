@@ -14,7 +14,7 @@
 
 </head>
 <body>
-	<jsp:include page="top.jsp" />
+	<jsp:include page="sellerTop.jsp" />
 	
 	<form action="registerProcessing" method="POST" enctype="multipart/form-data">
 		<table>

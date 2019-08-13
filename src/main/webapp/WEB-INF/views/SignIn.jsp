@@ -15,16 +15,35 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<style>
+	.login{
+        position:absolute;
+        top:25%; left:50%;
+        margin-top:-100px; margin-left:-100px;
+        width:200px; height:200px;
+      }
+</style>
 </head>
 <body>
-	<form action="SignInProcessing" method="POST">
-		<label>ID</label><input type="text" name="id"><br>
-		<label>PW</label><input type="password" name="pw"><br>
-		<input type="submit" value="SignIn">
-	</form>
-	
-	<a id="kakao-login-btn"></a>
-	<a href="http://developers.kakao.com/logout"></a>
+	<div class="login">
+		<form class="form-horizontal" action="SignInProcessing" method="POST">
+			<div class="form-group">
+		    	<label class="col-sm-2 control-label">ID</label>
+		    	<input type="text" class="form-control" id="inputEmail3" name="id" placeholder="Email">
+			</div>
+			<div class="form-group">
+		    	<label class="col-sm-2 control-label">PW</label>
+		    	<input type="password" class="form-control" name="pw" placeholder="Password">
+			</div>
+		    <div class="col-sm-offset-2 col-sm-10">
+		      <button type="submit" class="btn btn-default">Sign in</button>
+		  	</div>
+		  	<div class="form-group">
+				<a id="kakao-login-btn"></a>
+				<a href="http://developers.kakao.com/logout"></a>
+			</div>
+		</form>
+	</div>
 </body>
 </html>
 

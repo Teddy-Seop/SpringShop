@@ -25,6 +25,10 @@
 		SELECT * FROM product WHERE brand = #{brand}
 	</select>
 	
+	<select id="productSearch" resultType="com.ms.shop.Vo.ProductVo">
+		SELECT * FROM product WHERE name LIKE #{keyword}
+	</select>
+	
 	<insert id="productRegister">
 		INSERT INTO product (name, price, image, gender, category, brand, stock, count, status, date) 
 		VALUES 

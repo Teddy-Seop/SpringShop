@@ -51,6 +51,12 @@ public class ProductDao implements IProductDao {
 	}
 	
 	@Override
+	public List<ProductVo> productSearch(String keyword) throws Exception {
+		
+		return sqlSession.selectList(Namespace + ".productSearch", keyword);
+	}
+	
+	@Override
 	public void productRegister(ProductVo product) throws Exception {
 		
 		sqlSession.insert(Namespace + ".productRegister", product);

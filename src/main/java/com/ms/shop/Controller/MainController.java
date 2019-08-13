@@ -55,126 +55,6 @@ public class MainController {
 		return "index";
 	}
 	
-	//로그인 페이지
-	@RequestMapping("/SignIn")
-	public String SignIn(Model model, HttpServletRequest request) throws Exception {
-		
-		return "SignIn";
-	}
-	
-	//로그인 처리
-	@RequestMapping("/SignInProcessing")
-	public String SignInProcessing(Model model, HttpServletRequest request, HttpSession session) throws Exception {
-		
-		String u_id = request.getParameter("id");
-		String u_pw = request.getParameter("pw");
-
-		List<UserVo> user = userDao.loginCheck(u_id);
-		String id = user.get(0).getId();
-		String pw = user.get(0).getPw();
-		int power = user.get(0).getPower();
-		
-		if(u_id.equals(id) && u_pw.equals(pw)) {
-			
-			session.setAttribute("login", u_id);
-			
-			if(power == 1) {
-				return "redirect:Main";
-			}else if(power == 2) {
-				return "redirect:seller";
-			}
-		}
-		return "err";
-	}
-	
-	//카카오 로그인
-	@RequestMapping("/kakaoLogin/{id:.+}")
-	public String kakaoLogin(Model model, HttpSession session, @PathVariable String id) throws Exception {
-		
-		UserVo user = userDao.kakaoUser(id);
-		if(user != null) { //카카오 계정으로 가입이 되어있을때
-			
-			session.setAttribute("login", id);
-			return "redirect:/Main";
-		}else { //카카오 계정으로 가입이 되어있지 않을때
-			
-			return "redirect:/kakaoSignUp/" + id;
-		}
-	}
-	
-	//카카오 회원가입
-	@RequestMapping("/kakaoSignUp/{id:.+}")
-	public String kakaoSignUp(Model model, @PathVariable String id) throws Exception{
-		
-		model.addAttribute("id", id);
-		
-		return "kakaoSignUp";
-	}
-	
-	//카카오 회원가입 처리
-	@RequestMapping(value="/kakaoSignUp/{id:.+}", method=RequestMethod.POST)
-	public String kakaoSignUpProcessing(Model model, HttpServletRequest request) throws Exception{
-		
-		String id = request.getParameter("id");
-		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
-		String address = request.getParameter("address");
-		
-		UserVo user = new UserVo();
-		user.setId(id);
-		user.setName(name);
-		user.setPhone(phone);
-		user.setAddress(address);
-		
-		userDao.kakaoSignUp(user);
-		
-		return "redirect:/SignIn";
-	}
-	
-	//회원가입 페이지
-	@RequestMapping("/SignUp")
-	public String SignUp(Model model) throws Exception {
-		
-		return "SignUp";
-	}
-	
-	//회원가입 처리
-	@RequestMapping("/SignUpProcessing")
-	public String SignUpProcessing(Model model, HttpServletRequest request) throws Exception {
-			
-		String id = request.getParameter("id");
-		String pw = request.getParameter("pw");
-		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
-		String address = request.getParameter("address");
-		int power = 1;
-			
-		UserVo user = new UserVo();
-		user.setId(id);
-		user.setPw(pw);
-		user.setName(name);
-		user.setPhone(phone);
-		user.setAddress(address);
-		user.setPower(power);
-		
-		userDao.signUp(user);
-		
-		return "redirect:SignIn";
-	}
-	
-	//로그아웃
-	@RequestMapping("/logout")
-	public String logout(Model model, HttpSession session) throws Exception {
-		
-		if(session.getAttribute("login") != null) {
-			
-			session.removeAttribute("login");
-			
-			return "redirect:/";
-		}
-		
-		return "err";
-	}
 	
 	//메인 페이지
 	@RequestMapping("/Main")
@@ -350,6 +230,23 @@ public class MainController {
 			
 			return "mypage";
 		}
+		return "err";
+	}
+	
+	//상품 검색
+	@RequestMapping("/search")
+	public String search(Model model,HttpServletRequest request, HttpSession session) throws Exception{
+		
+		if(session.getAttribute("login") != null) {
+			String keyword = request.getParameter("keyword");
+			String str = '%' + keyword + '%';
+			System.out.println(str);
+			List<ProductVo> productList = productDao.productSearch(str);
+			model.addAttribute("productList", productList);
+			
+			return "list";
+		}
+		
 		return "err";
 	}
 }

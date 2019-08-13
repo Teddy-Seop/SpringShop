@@ -21,6 +21,7 @@
 		<div class="man"><h2>MAN</h2></div>
 		<div class="woman"><h2>WOMAN</h2></div>
 	</div>
+	
 	<div class="target">
 		<c:forEach var="product" items="${productList}">
 			<div><img src="images/${product.image}" /></div>

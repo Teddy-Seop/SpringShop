@@ -15,7 +15,7 @@
 
 </head>
 <body>
-	<jsp:include page="top.jsp" />
+	<jsp:include page="sellerTop.jsp" />
 	
 	<div><img src="${pageContext.request.contextPath}/images/${product.image}" /></div>
 	<div>${product.brand }</div>

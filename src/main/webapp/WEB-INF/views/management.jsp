@@ -15,7 +15,7 @@
 
 </head>
 <body>
-	<jsp:include page="top.jsp" />
+	<jsp:include page="sellerTop.jsp" />
 	
 	<form action="managementProcessing" method="POST">
 		<table class="target">

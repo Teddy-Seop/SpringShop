@@ -12,9 +12,9 @@
 	.menu{
 		float:left;
 		border:0.1em solid #cccccc; 
-		width:50%; 
+		width:30%; 
 		height:100%;
-		left:-500px; 
+		left:-1500px; 
 		position:absolute; 
 		background-color:white;
 	}
@@ -25,8 +25,14 @@
 	<div class="top">
 		<div class="menu">
 			<button class="close"><h1>X</h1></button>
+			<form action="/shop/search" method="POST">
+				<input type="text" name="keyword">
+				<button type="submit">
+					<span class="glyphicon glyphicon-search"></span>
+				</button>
+			</form>
 			<ul>
-				<li><h3>MAN</h3></li>
+				<li><h3 class="man">MAN</h3></li>
 				<li><button id="top" class="man">TOP</button></li>
 				<li><button id="bottom" class="man">BOTTOM</button></li>
 				<li><button id="outer" class="man">OUTER</button></li>
@@ -35,7 +41,7 @@
 			</ul>
 			<hr>
 			<ul>
-				<li><h3>WOMAN</h3></li>
+				<li><h3 class="woman">WOMAN</h3></li>
 				<li><button id="top" class="woman">TOP</button></li>
 				<li><button id="bottom" class="woman">BOTTOM</button></li>
 				<li><button id="outer" class="woman">OUTER</button></li>
@@ -49,7 +55,7 @@
 			</ul>
 		</div>
 		<button class="open">MENU</button>
-		<h1 class="main">KIEZEN</h1>
+		<h1 class="main">KOHO</h1>
 	</div>
 </body>
 </html>
@@ -60,7 +66,7 @@
 		$('.menu').animate({left:0}, 300);
 	})
 	$('.close').click(function(){
-		$('.menu').animate({left:'-500px'}, 300);
+		$('.menu').animate({left:'-1500px'}, 300);
 	})
 	
 	//남성 카테고리 이동
@@ -84,7 +90,7 @@
 	$('.mypage').click(function(){
 		location.href = "/shop/mypage";
 	})
-	
+
 	//로그아웃
 	$('.logout').click(function(){
 		location.href = "/shop/logout";

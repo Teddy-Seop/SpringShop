@@ -12,6 +12,7 @@ public interface IProductDao {
 	public List<ProductVo> productListGender(String gender) throws Exception;
 	public List<ProductVo> productListCategory(ProductVo info) throws Exception;
 	public ProductVo productDetail(int no) throws Exception;
+	public List<ProductVo> productSearch(String search) throws Exception;
 	public void productRegister(ProductVo product) throws Exception;
 	public List<ProductVo> managementList(String brand) throws Exception;
 	public void productManagement(Map<String, Integer> map) throws Exception;

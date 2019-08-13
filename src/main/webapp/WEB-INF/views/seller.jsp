@@ -14,7 +14,7 @@
 
 </head>
 <body>
-	<jsp:include page="top.jsp" />
+	<jsp:include page="sellerTop.jsp" />
 	
 	<button class="supervise">SUPERVISE</button>
 	<button class="management">MANAGEMENT</button>
