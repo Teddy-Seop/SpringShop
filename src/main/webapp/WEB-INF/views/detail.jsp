@@ -44,7 +44,7 @@
 		check = "unpick";
 	}
 	
-	//ajax test
+	//ajax
 	$('.pick').click(function(check){
 		$.ajax({
 			data: "pick",

@@ -76,29 +76,47 @@ public class MainController {
 	public String genderList(Model model, HttpSession session, @PathVariable String gender) throws Exception{
 		
 		if(session.getAttribute("login") != null) {
-			
+
 			//제품 출력
 			List<ProductVo> productList = productDao.productListGender(gender);
 			model.addAttribute("productList", productList);
-			
+
 			return "list";
 		}
 		return "err";
 	}
 	
+//	//카테고리별 리스트
+//	@RequestMapping(value="/list/{gender}/{category}")
+//	public String categoryList(Model model, HttpSession session, @PathVariable("gender") String gender, @PathVariable("category") String category) throws Exception{
+//		
+//		if(session.getAttribute("login") != null) {
+//			
+//			//제품 출력
+//			ProductVo info = new ProductVo();
+//			info.setGender(gender);
+//			info.setCategory(category);
+//			List<ProductVo> productList = productDao.productListCategory(info);
+//			model.addAttribute("productList", productList);
+//			System.out.println("1");
+//			return "list";
+//		}
+//		return "err";
+//	}
+	
 	//카테고리별 리스트
-	@RequestMapping("/list/{gender}/{category}")
-	public String categoryList(Model model, HttpSession session, @PathVariable String gender, @PathVariable String category) throws Exception{
+	@RequestMapping(value="/list/{gender}/{category}")
+	public String categoryList(Model model, HttpSession session,@PathVariable String gender, @PathVariable String category) throws Exception{
 		
 		if(session.getAttribute("login") != null) {
-			
+			System.out.println(category);
 			//제품 출력
 			ProductVo info = new ProductVo();
 			info.setGender(gender);
 			info.setCategory(category);
 			List<ProductVo> productList = productDao.productListCategory(info);
 			model.addAttribute("productList", productList);
-			
+			System.out.println("1");
 			return "list";
 		}
 		return "err";
