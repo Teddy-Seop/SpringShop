@@ -36,7 +36,8 @@
 		    	<input type="password" class="form-control" name="pw" placeholder="Password">
 			</div>
 		    <div class="col-sm-offset-2 col-sm-10">
-		      <button type="submit" class="btn btn-default">Sign in</button>
+		      <button type="submit" class="btn btn-default signin">SIGN IN</button>
+		      <button type="button" class="btn btn-default signup">SIGN UP</button>
 		  	</div>
 		  	<div class="form-group">
 				<a id="kakao-login-btn"></a>
@@ -70,4 +71,8 @@
 	      }
 	    });
 	  //]]>
+	  
+	$('.signup').click(function(){
+		location.href = "SignUp";
+	})
 	</script>

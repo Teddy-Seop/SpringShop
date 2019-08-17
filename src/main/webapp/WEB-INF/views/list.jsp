@@ -16,16 +16,17 @@
 <style>
 	.space{
 		float:left;
+		margin:10px;
 	}
-	img{
+	.img{
 		width: 200px;
 		height: 200px;
 	}
 	.target{
 		margin:100px;
 	}
-	.space{
-		margin:10px;
+	a{
+		color:black;
 	}
 </style>
 </head>
@@ -40,9 +41,9 @@
 				<br>
 			</c:if>
 			<div class="space">
-				<div><a href="/shop/detail/${product.no}"><img src="${pageContext.request.contextPath}/images/${product.image}" /></a></div>
+				<div><a href="/shop/detail/${product.no}"><img class="img" src="${pageContext.request.contextPath}/images/${product.image}" /></a></div>
 				<div><a href="/shop/detail/${product.no}">${product.name}</a></div>
-				<div>${product.price}</div>
+				<div><a href="/shop/detail/${product.no}">${product.price}</a></div>
 			</div>
 		</c:forEach>
 	</div>

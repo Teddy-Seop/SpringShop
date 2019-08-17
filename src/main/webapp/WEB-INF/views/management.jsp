@@ -13,36 +13,48 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<style>
+	.space{
+		position:absolute;
+		top: 25%; left:30%;
+        width:50%; height:200px;
+	}
+	table {
+	  border-collapse: separate;
+	  border-spacing: 10px 10px;
+	}
+</style>
 </head>
 <body>
 	<jsp:include page="sellerTop.jsp" />
-	
-	<form action="managementProcessing" method="POST">
-		<table class="target">
-			<tr>
-				<th>NAME</th>
-				<th>STATUS</th>
-				<th>STOCK</th>
-				<th>DELETE</th>
-			</tr>
-			<c:forEach var="item" items="${managementList}" >
-				<tr class="tr${item.no}">
-					<td>${item.name}</td>
-					<td class="${item.no}">
-						<input type="radio" class="on" name="${item.no}" value=1>ON
-						<input type="radio" class="off" name="${item.no}" value=0>OFF
-					</td>
-					<td>
-						<input type="text" name="stock${item.no}" value=${item.stock}>
-					</td>
-					<td><button type="button" class="del${item.no}">DELETE</button></td>
+	<div class="space">
+		<form action="managementProcessing" method="POST">
+			<table>
+				<tr>
+					<th>NAME</th>
+					<th>STATUS</th>
+					<th>STOCK</th>
+					<th>DELETE</th>
 				</tr>
-			</c:forEach>
-			<tr>
-				<td><input type="submit" value="SAVE"></td>
-			</tr>
-		</table>
-	</form>
+				<c:forEach var="item" items="${managementList}" >
+					<tr class="tr${item.no}">
+						<td>${item.name}</td>
+						<td class="${item.no}">
+							<input type="radio" class="on" name="${item.no}" value=1>ON
+							<input type="radio" class="off" name="${item.no}" value=0>OFF
+						</td>
+						<td>
+							<input type="text" name="stock${item.no}" value=${item.stock}>
+						</td>
+						<td><button type="button" class="del${item.no}">DELETE</button></td>
+					</tr>
+				</c:forEach>
+				<tr>
+					<td><input type="submit" value="SAVE"></td>
+				</tr>
+			</table>
+		</form>	
+	</div>
 </body>
 </html>
 

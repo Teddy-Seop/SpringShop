@@ -57,6 +57,18 @@ public class ProductDao implements IProductDao {
 	}
 	
 	@Override
+	public List<ProductVo> productRank() throws Exception {
+		
+		return sqlSession.selectList(Namespace + ".productRank");
+	}
+	
+	@Override
+	public List<ProductVo> productNew() throws Exception {
+		
+		return sqlSession.selectList(Namespace + ".productNew");
+	}
+	
+	@Override
 	public void productRegister(ProductVo product) throws Exception {
 		
 		sqlSession.insert(Namespace + ".productRegister", product);

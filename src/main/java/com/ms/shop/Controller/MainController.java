@@ -62,9 +62,14 @@ public class MainController {
 		
 		if(session.getAttribute("login") != null) {
 			
-//			//제품 출력
-//			List<ProductVo> productList = productDao.productList();
-//			model.addAttribute("productList", productList);
+			//제품 랭킹 출력
+			List<ProductVo> productRank = productDao.productRank();
+			model.addAttribute("productRank", productRank);
+			
+			//신상품 출력
+			List<ProductVo> productNew = productDao.productNew();
+			model.addAttribute("productNew", productNew);
+			
 			return "Main";
 		}
 		
@@ -86,37 +91,18 @@ public class MainController {
 		return "err";
 	}
 	
-//	//카테고리별 리스트
-//	@RequestMapping(value="/list/{gender}/{category}")
-//	public String categoryList(Model model, HttpSession session, @PathVariable("gender") String gender, @PathVariable("category") String category) throws Exception{
-//		
-//		if(session.getAttribute("login") != null) {
-//			
-//			//제품 출력
-//			ProductVo info = new ProductVo();
-//			info.setGender(gender);
-//			info.setCategory(category);
-//			List<ProductVo> productList = productDao.productListCategory(info);
-//			model.addAttribute("productList", productList);
-//			System.out.println("1");
-//			return "list";
-//		}
-//		return "err";
-//	}
-	
 	//카테고리별 리스트
 	@RequestMapping(value="/list/{gender}/{category}")
 	public String categoryList(Model model, HttpSession session,@PathVariable String gender, @PathVariable String category) throws Exception{
 		
 		if(session.getAttribute("login") != null) {
-			System.out.println(category);
+			
 			//제품 출력
 			ProductVo info = new ProductVo();
 			info.setGender(gender);
 			info.setCategory(category);
 			List<ProductVo> productList = productDao.productListCategory(info);
 			model.addAttribute("productList", productList);
-			System.out.println("1");
 			return "list";
 		}
 		return "err";
@@ -153,6 +139,7 @@ public class MainController {
 		OrderVo info = new OrderVo();
 		info.setId((String) session.getAttribute("login"));
 		info.setNo(no);
+		
 		if(check.equals("pick=")) {
 			System.out.println("1");
 			orderDao.unpick(info);

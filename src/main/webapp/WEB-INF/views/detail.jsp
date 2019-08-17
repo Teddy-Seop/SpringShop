@@ -12,20 +12,34 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<style>
+	img{
+		width: 400px;
+		height: 400px;
+		margin-right: 50px;
+	}
+	.space{
+		position:absolute;
+		top: 25%; left:30%;
+        width:50%; height:200px;
+	}
+	.section{
+		float:left;
+	}
+</style>
 </head>
 <body>
 	<jsp:include page="top.jsp" />
-	
-	<div><img src="${pageContext.request.contextPath}/images/${product.image}" /></div>
-	<div>${product.name}</div>
-	<div>${product.price}</div>
-	<button class="purchase">PURCHASE</button>
-	<button class="unpick">
-		<span class="glyphicon glyphicon-star-empty"></span>
-	</button>
-	<button class="pick">
-		<span class="glyphicon glyphicon-star"></span>
-	</button>
+	<div class="space">
+		<div class="section"><img src="${pageContext.request.contextPath}/images/${product.image}" /></div>
+		<div class="section">
+			<div><h3>${product.name}</h3></div>
+			<div><h3>${product.price}</h3></div>
+			<button class="btn btn-default purchase">PURCHASE</button>
+			<button class="btn btn-default unpick"><span class="glyphicon glyphicon-star-empty"></span></button>
+			<button class="btn btn-default pick"><span class="glyphicon glyphicon-star"></span></button>
+		</div>
+	</div>
 </body>
 </html>
 

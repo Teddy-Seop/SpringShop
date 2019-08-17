@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <style>
-	.top h1{
+	.top > h1{
 		text-align: center;
 	}
 	.menu{
@@ -18,10 +18,17 @@
 		position:absolute; 
 		background-color:white;
 	}
+	.open{
+		float:left;
+		width:45px;
+		height:45px;
+		margin-left:10px;
+	}
 </style>
 
 </head>
 <body>
+	<img class="open" src="${pageContext.request.contextPath}/images/topMenu.jpg">
 	<div class="top">
 		<div class="menu">
 			<button class="close"><h1>X</h1></button>
@@ -29,7 +36,7 @@
 				<li><button class="logout">LOGOUT</button></li>
 			</ul>
 		</div>
-		<button class="open">MENU</button>
+		
 		<h1 class="main">KOHO</h1>
 	</div>
 </body>

@@ -17,6 +17,13 @@
 		left:-1500px; 
 		position:absolute; 
 		background-color:white;
+		z-index:100;
+	}
+	.open{
+		float:left;
+		width:45px;
+		height:45px;
+		margin-left:10px;
 	}
 </style>
 
@@ -54,7 +61,7 @@
 				<li><button class="logout">LOGOUT</button></li>
 			</ul>
 		</div>
-		<button class="open">MENU</button>
+		<img class="open" src="${pageContext.request.contextPath}/images/topMenu.jpg">
 		<h1 class="main">KOHO</h1>
 	</div>
 </body>
