@@ -13,6 +13,8 @@ public class OrderVo {
 	private String phone;
 	private int complete;
 	private Date date;
+	private String content; //리뷰 내용
+	private String image; //리뷰 이미지
 	
 	public int getPurchaseno() {
 		return purchaseno;
@@ -68,4 +70,17 @@ public class OrderVo {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
 }

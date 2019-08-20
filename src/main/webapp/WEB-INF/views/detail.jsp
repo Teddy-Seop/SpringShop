@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -13,7 +14,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <style>
-	img{
+	.detail{
 		width: 400px;
 		height: 400px;
 		margin-right: 50px;
@@ -26,18 +27,30 @@
 	.section{
 		float:left;
 	}
+	.clear{
+		clear:both;
+	}
 </style>
 </head>
 <body>
 	<jsp:include page="top.jsp" />
 	<div class="space">
-		<div class="section"><img src="${pageContext.request.contextPath}/images/${product.image}" /></div>
+		<div class="section"><img class="detail" src="${pageContext.request.contextPath}/images/${product.image}" /></div>
 		<div class="section">
 			<div><h3>${product.name}</h3></div>
 			<div><h3>${product.price}</h3></div>
 			<button class="btn btn-default purchase">PURCHASE</button>
 			<button class="btn btn-default unpick"><span class="glyphicon glyphicon-star-empty"></span></button>
 			<button class="btn btn-default pick"><span class="glyphicon glyphicon-star"></span></button>
+		</div>
+		
+		<div class="clear"></div>
+		
+		<div class="space2">
+			<c:forEach var="review" items="${reviews}">
+				<h1>${review.id}</h1>
+				<h1>${review.content}</h1>	
+			</c:forEach>
 		</div>
 	</div>
 </body>

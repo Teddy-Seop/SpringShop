@@ -40,7 +40,7 @@
 			<div><h3>${product.name }</h3></div>
 			<div><h3>${product.price }</h3></div>
 		</div>
-		<form action="purchaseProcessing" method="POST">
+		<form action="purchase" method="POST">
 			<input type="hidden" value="${product.brand}" name="brand">
 			<input type="hidden" value="${product.name}" name="name">
 			<table>

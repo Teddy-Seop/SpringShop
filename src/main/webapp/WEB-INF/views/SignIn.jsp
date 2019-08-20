@@ -26,7 +26,7 @@
 </head>
 <body>
 	<div class="login">
-		<form class="form-horizontal" action="SignInProcessing" method="POST">
+		<form class="form-horizontal" action="SignIn" method="POST">
 			<div class="form-group">
 		    	<label class="col-sm-2 control-label">ID</label>
 		    	<input type="text" class="form-control" id="inputEmail3" name="id" placeholder="Email">

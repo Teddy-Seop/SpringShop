@@ -26,14 +26,14 @@ public class UserController {
 	}
 	
 	//로그인 페이지
-	@RequestMapping("/SignIn")
+	@RequestMapping(value="/SignIn", method=RequestMethod.GET)
 	public String SignIn(Model model, HttpServletRequest request) throws Exception {
 		
 		return "SignIn";
 	}
 	
 	//로그인 처리
-	@RequestMapping("/SignInProcessing")
+	@RequestMapping(value="/SignIn", method=RequestMethod.POST)
 	public String SignInProcessing(Model model, HttpServletRequest request, HttpSession session) throws Exception {
 		
 		String u_id = request.getParameter("id");
@@ -73,7 +73,7 @@ public class UserController {
 	}
 		
 	//카카오 회원가입
-	@RequestMapping("/kakaoSignUp/{id:.+}")
+	@RequestMapping(value="/kakaoSignUp/{id:.+}", method=RequestMethod.GET)
 	public String kakaoSignUp(Model model, @PathVariable String id) throws Exception{
 			
 		model.addAttribute("id", id);
@@ -102,14 +102,14 @@ public class UserController {
 	}
 		
 	//회원가입 페이지
-	@RequestMapping("/SignUp")
+	@RequestMapping(value="/SignUp", method=RequestMethod.GET)
 	public String SignUp(Model model) throws Exception {
 			
 		return "SignUp";
 	}
 		
 	//회원가입 처리
-	@RequestMapping("/SignUpProcessing")
+	@RequestMapping(value="/SignUp", method=RequestMethod.POST)
 	public String SignUpProcessing(Model model, HttpServletRequest request) throws Exception {
 				
 		String id = request.getParameter("id");

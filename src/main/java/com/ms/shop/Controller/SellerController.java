@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -70,7 +71,7 @@ public class SellerController {
 	}
 	
 	//샹품 등록 페이지
-	@RequestMapping("/register")
+	@RequestMapping(value="/register", method=RequestMethod.GET)
 	public String supervise(Model model, HttpSession session) throws Exception {
 		
 		if(session.getAttribute("login") != null) {
@@ -81,7 +82,7 @@ public class SellerController {
 	}
 	
 	//상품 등록 처리
-	@RequestMapping("/registerProcessing")
+	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public String superviseProcessing(Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response, MultipartFile file) throws Exception {
 		
 		if(session.getAttribute("login") != null) {
@@ -123,7 +124,7 @@ public class SellerController {
 	}
 	
 	//상품 관리 페이지
-	@RequestMapping("/management")
+	@RequestMapping(value="/management", method=RequestMethod.GET)
 	public String management(Model model, HttpSession session) throws Exception {
 		
 		if(session.getAttribute("login") != null) {
@@ -137,7 +138,7 @@ public class SellerController {
 	}
 	
 	//상품 관리 처리
-	@RequestMapping("/managementProcessing")
+	@RequestMapping(value="/management", method=RequestMethod.POST)
 	public String managementProcessing(Model model, HttpSession session, HttpServletRequest request) throws Exception{
 		
 		if(session.getAttribute("login") != null) {

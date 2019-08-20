@@ -28,7 +28,7 @@
 <body>
 	<jsp:include page="sellerTop.jsp" />
 	<div class="space">
-		<form action="managementProcessing" method="POST">
+		<form action="management" method="POST">
 			<table>
 				<tr>
 					<th>NAME</th>

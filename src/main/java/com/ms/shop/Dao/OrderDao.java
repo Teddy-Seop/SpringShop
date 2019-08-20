@@ -44,6 +44,11 @@ JdbcTemplate template;
 		return sqlSession.selectList(Namespace + ".customerPick", id);
 	}
 	
+	public List<OrderVo> reviewList(OrderVo info) throws Exception{
+		
+		return sqlSession.selectList(Namespace + ".reviewList", info);
+	}
+	
 	public void pick(OrderVo info) throws Exception {
 		
 		sqlSession.insert(Namespace + ".pick", info);
@@ -57,6 +62,11 @@ JdbcTemplate template;
 	public void insertPurchase(OrderVo info) throws Exception {
 		
 		sqlSession.insert(Namespace + ".insertPurchase", info);
+	}
+	
+	public void insertReivew(OrderVo info) throws Exception{
+		
+		sqlSession.insert(Namespace + ".insertReview", info);
 	}
 	
 	public void handlingPurchase(int purchaseno) throws Exception {

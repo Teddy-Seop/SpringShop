@@ -21,6 +21,10 @@
 		SELECT * FROM pick WHERE id = #{id}
 	</select>
 	
+	<select id="reviewList" resultType="com.ms.shop.Vo.OrderVo">
+		SELECT * FROM review WHERE no = #{no}
+	</select>
+	
 	<insert id="pick">
 		INSERT INTO pick VALUES (#{no}, #{id})
 	</insert>
@@ -31,6 +35,10 @@
 
 	<insert id="insertPurchase">
 		INSERT INTO purchase (brand, no, name, id, address, phone, complete, date) VALUES (#{brand}, #{no}, #{name}, #{id}, #{address}, #{phone}, 0, now())
+	</insert>
+	
+	<insert id="insertReview">
+		INSERT INTO review values (#{no}, #{id}, #{content}, #{image}, now());
 	</insert>
 	
 	<update id="handlingPurchase">

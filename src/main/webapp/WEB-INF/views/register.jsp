@@ -27,7 +27,7 @@
 <body>
 	<jsp:include page="sellerTop.jsp" />
 	<div class="space">
-		<form 	action="registerProcessing" method="POST" enctype="multipart/form-data">
+		<form action="register" method="POST" enctype="multipart/form-data">
 			<table>
 				<th>REGISTER PRODUCT</th>
 				<tr>

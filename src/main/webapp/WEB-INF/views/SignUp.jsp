@@ -26,7 +26,7 @@
 </head>
 <body>
 	<div class="signup">
-		<form action="SignUpProcessing" method="POST">
+		<form action="SignUp" method="POST">
 			<table class="table table-bordered">
 				<tr>
 					<td>ID</td>

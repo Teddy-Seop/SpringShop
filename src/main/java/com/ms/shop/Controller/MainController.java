@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ms.shop.Dao.OrderDao;
 import com.ms.shop.Dao.ProductDao;
@@ -29,6 +29,8 @@ import com.ms.shop.Vo.UserVo;
 @Controller
 public class MainController {
 
+	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+	
 	ProductDao productDao;
 	UserDao userDao;
 	OrderDao orderDao;
@@ -61,6 +63,8 @@ public class MainController {
 	public String Main(Model model, HttpSession session) throws Exception {
 		
 		if(session.getAttribute("login") != null) {
+			
+			logger.info("Main");
 			
 			//제품 랭킹 출력
 			List<ProductVo> productRank = productDao.productRank();
@@ -109,7 +113,7 @@ public class MainController {
 	}
 	
 	//상품 상세보기 페이지
-	@RequestMapping("/detail/{no}")
+	@RequestMapping(value="/detail/{no}", method=RequestMethod.GET)
 	public String detail(Model model, HttpSession session, @PathVariable int no) throws Exception{
 		
 		if(session.getAttribute("login") != null) {
@@ -117,6 +121,12 @@ public class MainController {
 			//제품 출력
 			ProductVo product = productDao.productDetail(no);
 			model.addAttribute("product", product);
+			
+			//review 출력
+			OrderVo rInfo = new OrderVo();
+			rInfo.setNo(no);
+			List<OrderVo> reviews = orderDao.reviewList(rInfo);
+			model.addAttribute("reviews", reviews);
 			
 			//찜
 			OrderVo info = new OrderVo();
@@ -135,11 +145,13 @@ public class MainController {
 	@RequestMapping(value="/detail/{no}", method=RequestMethod.POST)
 	public String pick(@RequestBody String check, HttpSession session, @PathVariable int no) throws Exception {
 		
-		System.out.println(check);
+		//상세보기 정보
 		OrderVo info = new OrderVo();
 		info.setId((String) session.getAttribute("login"));
 		info.setNo(no);
 		
+		//찜 pick unpick
+		logger.info(check);
 		if(check.equals("pick=")) {
 			System.out.println("1");
 			orderDao.unpick(info);
@@ -147,11 +159,12 @@ public class MainController {
 			System.out.println("2");
 			orderDao.pick(info);
 		}
+		
 		return "test";
 	}
 	
 	//구매 페이지
-	@RequestMapping("/detail/{no}/purchase")
+	@RequestMapping(value="/detail/{no}/purchase", method=RequestMethod.GET)
 	public String purchase(Model model, HttpSession session, @PathVariable int no) throws Exception{
 		
 		if(session.getAttribute("login") != null) {
@@ -170,7 +183,7 @@ public class MainController {
 	}
 	
 	//구매 처리
-	@RequestMapping("/detail/{no}/purchaseProcessing")
+	@RequestMapping(value="/detail/{no}/purchase", method=RequestMethod.POST)
 	public String purchaseProcessing(Model model, HttpSession session, HttpServletRequest request, @PathVariable int no) throws Exception{
 		
 		if(session.getAttribute("login") != null) {
@@ -226,7 +239,6 @@ public class MainController {
 			List<OrderVo> pick = orderDao.customerPick(id);
 			List<ProductVo> productList = new ArrayList<ProductVo>();
 			for(int i=0; i<pick.size(); i++) {
-				System.out.println(pick.get(i).getNo());
 				int no = pick.get(i).getNo();
 				ProductVo product = productDao.productDetail(no);
 				productList.add(product);
@@ -236,6 +248,33 @@ public class MainController {
 			return "mypage";
 		}
 		return "err";
+	}
+	
+	//리뷰 작성 페이지
+	@RequestMapping(value="/review/{no}", method=RequestMethod.GET)
+	public String review(Model model, HttpSession session, @PathVariable int no) throws Exception{
+		
+		model.addAttribute("no", no);
+		
+		return "review";
+	}
+	
+	//리뷰 작성 페이지
+	@RequestMapping(value="/review/{no}", method=RequestMethod.POST)
+	public String reviewProcessing(Model model, HttpServletRequest request, HttpSession session, @PathVariable int no) throws Exception{
+		
+		String content = request.getParameter("content");
+		String id = (String) session.getAttribute("login");
+		
+		OrderVo info = new OrderVo();
+		info.setNo(no);
+		info.setId(id);
+		info.setContent(content);
+		info.setImage(null);
+		
+		orderDao.insertReivew(info);
+		
+		return "redirect:/mypage";
 	}
 	
 	//상품 검색
@@ -251,7 +290,6 @@ public class MainController {
 			
 			return "list";
 		}
-		
 		return "err";
 	}
 }

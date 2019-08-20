@@ -20,17 +20,17 @@
 
 	  <!-- Nav tabs -->
 	  <ul class="nav nav-tabs" role="tablist">
-	    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">PURCHASE</a></li>
-	    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">PICK</a></li>
+	    <li role="presentation" class="active"><a href="#purchase" aria-controls="home" role="tab" data-toggle="tab">PURCHASE</a></li>
+	    <li role="presentation"><a href="#pick" aria-controls="profile" role="tab" data-toggle="tab">PICK</a></li>
 	  </ul>
 	
 	  <!-- Tab panes -->
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane active" id="purchase">
 	    	<!-- 구매목록 -->
-			<table>
+			<table class="table">
 				<tr>
-					<th>PURCHASE-NO</th>
+					<th>NO</th>
 					<th>PRODUCT</th>
 					<th>STATE</th>
 					<th>DATE</th>
@@ -41,6 +41,10 @@
 						<td>${item.name}</td>
 						<td>${item.complete}</td>
 						<td>${item.date}</td>
+						<c:set var="complete" value="${item.complete}" />
+						<c:if test="${complete == 1}">
+							<td><button class="btn btn-default ${item.no}">REVIEW</button></td>
+						</c:if>
 					</tr>
 				</c:forEach>
 			</table>
@@ -75,4 +79,9 @@
 	  e.preventDefault()
 	  $(this).tab('show')
 	})
+	<c:forEach var="item" items="${purchase}">
+		$('.${item.no}').click(function(){
+			location.href = "/shop/review/${item.no}";
+		})
+	</c:forEach>
 </script>
