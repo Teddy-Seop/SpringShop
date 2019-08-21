@@ -30,6 +30,13 @@
 	.clear{
 		clear:both;
 	}
+	.review{
+		margin-top: 100px;
+	}
+	.reviewImage{
+		width:200px;
+		height: 200px;
+	}
 </style>
 </head>
 <body>
@@ -46,11 +53,29 @@
 		
 		<div class="clear"></div>
 		
-		<div class="space2">
-			<c:forEach var="review" items="${reviews}">
-				<h1>${review.id}</h1>
-				<h1>${review.content}</h1>	
-			</c:forEach>
+		<div class="review">
+			<table class="table">
+				<tr>
+					<th colspan="2">REVIEW</th>
+				</tr>
+				<c:forEach var="review" items="${reviews}">
+				<tr>
+					<td>ID</td>
+					<td>${review.id}</td>
+				</tr>
+				<tr>
+					<td>REVIEW</td>
+					<td>${review.content}</td>
+				</tr>
+				<c:set var="image" value="${review.image}" />
+				<c:if test="${!empty image}">
+					<tr>
+						<td>IMAGE</td>
+						<td><img class="reviewImage" src="${pageContext.request.contextPath}/images/${review.image}" /></td>
+					</tr>
+				</c:if>
+				</c:forEach>
+			</table>
 		</div>
 	</div>
 </body>

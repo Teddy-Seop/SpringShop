@@ -5,17 +5,29 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+<style>
+	.text{
+		width:70%;
+	}
+</style>
 </head>
 <body>
-	<form action="review/${no}" method="POST" enctype="multipart/form-data">
+	<jsp:include page="top.jsp" />
+	<form method="POST" enctype="multipart/form-data">
 		<table class="table">
 			<tr>
-				<td>CONTENT</td>
-				<td><input type="text" name="content"></td>
+				<td>REVIEW</td>
+				<td><textarea class="form-control text" rows="3" name="content"></textarea></td>
 			</tr>
 			<tr>
 				<td>IMAGE</td>
-				<td><input type="file" name="file"></td>
+				<td><input type="file" id="exampleInputFile" name="file"></td>
 			</tr>
 			<tr>
 				<td colspan="2"><button type="submit">WRITE</button></td>

@@ -1,10 +1,13 @@
 package com.ms.shop.Controller;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,11 +16,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ms.shop.Dao.OrderDao;
 import com.ms.shop.Dao.ProductDao;
@@ -57,7 +62,10 @@ public class MainController {
 		return "index";
 	}
 	
-	
+	//업로드 파일 경로
+	@Resource(name = "uploadPath")
+	private String uploadPath;
+
 	//메인 페이지
 	@RequestMapping("/Main")
 	public String Main(Model model, HttpSession session) throws Exception {
@@ -259,18 +267,27 @@ public class MainController {
 		return "review";
 	}
 	
-	//리뷰 작성 페이지
+	//리뷰 작성 처리
 	@RequestMapping(value="/review/{no}", method=RequestMethod.POST)
-	public String reviewProcessing(Model model, HttpServletRequest request, HttpSession session, @PathVariable int no) throws Exception{
+	public String reviewProcessing(Model model, HttpServletRequest request, HttpSession session, @PathVariable int no, MultipartFile file) throws Exception{
 		
 		String content = request.getParameter("content");
 		String id = (String) session.getAttribute("login");
+		
+		//이미지 처리
+		String savedName = null;
+		if(!file.isEmpty()) {
+			UUID uid = UUID.randomUUID(); //중복 방지하기 위해 임의로 이름 생성
+			savedName = uid.toString() + "_" + file.getOriginalFilename();
+			File target = new File(uploadPath, savedName);
+			FileCopyUtils.copy(file.getBytes(), target); //업로드 디렉토리에 저장
+		}
 		
 		OrderVo info = new OrderVo();
 		info.setNo(no);
 		info.setId(id);
 		info.setContent(content);
-		info.setImage(null);
+		info.setImage(savedName);
 		
 		orderDao.insertReivew(info);
 		
