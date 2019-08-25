@@ -12,19 +12,26 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<style>
+	.space{
+		position:absolute;
+		top: 40%; left:50%;
+        width:50%; height:200px;
+	}
+</style>
+
 </head>
 <body>
-	<button class="signin">SIGN IN</button>
-	<button class="signup">SIGN UP</button>
+	<div class="space">
+		<h1>KOHO</h1>
+	</div>
 </body>
 </html>
 
 <script>
-	$('.signin').click(function(){
-		location.href = "SignIn";
-	})
-	
-	$('.signup').click(function(){
-		location.href = "SignUp";
+	$(document).ready(function(){
+		setTimeout(function(){
+			location.href = "/shop/Main";
+		}, 2000)
 	})
 </script>

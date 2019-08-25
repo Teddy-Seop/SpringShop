@@ -70,22 +70,22 @@ public class MainController {
 	@RequestMapping("/Main")
 	public String Main(Model model, HttpSession session) throws Exception {
 		
+		logger.info("Main");
+		
 		if(session.getAttribute("login") != null) {
 			
-			logger.info("Main");
-			
-			//제품 랭킹 출력
-			List<ProductVo> productRank = productDao.productRank();
-			model.addAttribute("productRank", productRank);
-			
-			//신상품 출력
-			List<ProductVo> productNew = productDao.productNew();
-			model.addAttribute("productNew", productNew);
-			
-			return "Main";
+			model.addAttribute("login", "login");
 		}
 		
-		return "err";
+		//제품 랭킹 출력
+		List<ProductVo> productRank = productDao.productRank();
+		model.addAttribute("productRank", productRank);
+		
+		//신상품 출력
+		List<ProductVo> productNew = productDao.productNew();
+		model.addAttribute("productNew", productNew);
+		
+		return "Main";
 	}
 	
 	//성별별 리스트
@@ -94,13 +94,13 @@ public class MainController {
 		
 		if(session.getAttribute("login") != null) {
 
-			//제품 출력
-			List<ProductVo> productList = productDao.productListGender(gender);
-			model.addAttribute("productList", productList);
-
-			return "list";
+			model.addAttribute("login", "login");
 		}
-		return "err";
+		//제품 출력
+		List<ProductVo> productList = productDao.productListGender(gender);
+		model.addAttribute("productList", productList);
+
+		return "list";
 	}
 	
 	//카테고리별 리스트
@@ -108,16 +108,16 @@ public class MainController {
 	public String categoryList(Model model, HttpSession session,@PathVariable String gender, @PathVariable String category) throws Exception{
 		
 		if(session.getAttribute("login") != null) {
-			
-			//제품 출력
-			ProductVo info = new ProductVo();
-			info.setGender(gender);
-			info.setCategory(category);
-			List<ProductVo> productList = productDao.productListCategory(info);
-			model.addAttribute("productList", productList);
-			return "list";
+
+			model.addAttribute("login", "login");
 		}
-		return "err";
+		//제품 출력
+		ProductVo info = new ProductVo();
+		info.setGender(gender);
+		info.setCategory(category);
+		List<ProductVo> productList = productDao.productListCategory(info);
+		model.addAttribute("productList", productList);
+		return "list";
 	}
 	
 	//상품 상세보기 페이지
@@ -126,32 +126,32 @@ public class MainController {
 		
 		if(session.getAttribute("login") != null) {
 			
-			//제품 출력
-			ProductVo product = productDao.productDetail(no);
-			model.addAttribute("product", product);
-			
-			//review 출력
-			OrderVo rInfo = new OrderVo();
-			rInfo.setNo(no);
-			List<OrderVo> reviews = orderDao.reviewList(rInfo);
-			model.addAttribute("reviews", reviews);
-			
-			//찜
-			OrderVo info = new OrderVo();
-			info.setId((String) session.getAttribute("login"));
-			info.setNo(no);
-			OrderVo pick = orderDao.havePick(info);
-			model.addAttribute("pick", pick);
-			
-			return "detail";
+			model.addAttribute("login", "login");
 		}
-		return "err";
+		//제품 출력
+		ProductVo product = productDao.productDetail(no);
+		model.addAttribute("product", product);
+		
+		//review 출력
+		OrderVo rInfo = new OrderVo();
+		rInfo.setNo(no);
+		List<OrderVo> reviews = orderDao.reviewList(rInfo);
+		model.addAttribute("reviews", reviews);
+		
+		//찜
+		OrderVo info = new OrderVo();
+		info.setId((String) session.getAttribute("login"));
+		info.setNo(no);
+		OrderVo pick = orderDao.havePick(info);
+		model.addAttribute("pick", pick);
+		
+		return "detail";
 	}
 	
 	//찜 ajax
 	@ResponseBody
 	@RequestMapping(value="/detail/{no}", method=RequestMethod.POST)
-	public String pick(@RequestBody String check, HttpSession session, @PathVariable int no) throws Exception {
+	public String pick(@RequestBody String check, HttpServletRequest request, HttpSession session, @PathVariable int no) throws Exception {
 		
 		//상세보기 정보
 		OrderVo info = new OrderVo();
@@ -169,6 +169,7 @@ public class MainController {
 		}
 		
 		return "test";
+		
 	}
 	
 	//구매 페이지
@@ -262,36 +263,44 @@ public class MainController {
 	@RequestMapping(value="/review/{no}", method=RequestMethod.GET)
 	public String review(Model model, HttpSession session, @PathVariable int no) throws Exception{
 		
-		model.addAttribute("no", no);
+		if(session.getAttribute("login") != null) {
+			model.addAttribute("no", no);
+			
+			return "review";
+		}
 		
-		return "review";
+		return "err";
 	}
 	
 	//리뷰 작성 처리
 	@RequestMapping(value="/review/{no}", method=RequestMethod.POST)
 	public String reviewProcessing(Model model, HttpServletRequest request, HttpSession session, @PathVariable int no, MultipartFile file) throws Exception{
 		
-		String content = request.getParameter("content");
-		String id = (String) session.getAttribute("login");
-		
-		//이미지 처리
-		String savedName = null;
-		if(!file.isEmpty()) {
-			UUID uid = UUID.randomUUID(); //중복 방지하기 위해 임의로 이름 생성
-			savedName = uid.toString() + "_" + file.getOriginalFilename();
-			File target = new File(uploadPath, savedName);
-			FileCopyUtils.copy(file.getBytes(), target); //업로드 디렉토리에 저장
+		if(session.getAttribute("login") != null) {
+			String content = request.getParameter("content");
+			String id = (String) session.getAttribute("login");
+			
+			//이미지 처리
+			String savedName = null;
+			if(!file.isEmpty()) {
+				UUID uid = UUID.randomUUID(); //중복 방지하기 위해 임의로 이름 생성
+				savedName = uid.toString() + "_" + file.getOriginalFilename();
+				File target = new File(uploadPath, savedName);
+				FileCopyUtils.copy(file.getBytes(), target); //업로드 디렉토리에 저장
+			}
+			
+			OrderVo info = new OrderVo();
+			info.setNo(no);
+			info.setId(id);
+			info.setContent(content);
+			info.setImage(savedName);
+			
+			orderDao.insertReivew(info);
+			
+			return "redirect:/mypage";
 		}
 		
-		OrderVo info = new OrderVo();
-		info.setNo(no);
-		info.setId(id);
-		info.setContent(content);
-		info.setImage(savedName);
-		
-		orderDao.insertReivew(info);
-		
-		return "redirect:/mypage";
+		return "err";
 	}
 	
 	//상품 검색

@@ -12,7 +12,7 @@ import com.ms.shop.Vo.OrderVo;
 @Repository("OrderDao")
 public class OrderDao {
 	
-JdbcTemplate template;
+	JdbcTemplate template;
 	
 	@Autowired
 	public void setTemplate(JdbcTemplate template) {

@@ -31,7 +31,14 @@
 </style>
 </head>
 <body>
-	<jsp:include page="top.jsp" />
+	<c:choose>
+	    <c:when test="${login eq 'login'}">
+	        <jsp:include page="top.jsp" />
+	    </c:when>
+	    <c:otherwise>
+	        <jsp:include page="nTop.jsp" />
+	    </c:otherwise>
+	</c:choose>
 	
 	<div class="target">
 		<c:set var="count" value="0" />

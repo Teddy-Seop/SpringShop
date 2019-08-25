@@ -40,7 +40,15 @@
 </style>
 </head>
 <body>
-	<jsp:include page="top.jsp" />
+	<c:choose>
+	    <c:when test="${login eq 'login'}">
+	        <jsp:include page="top.jsp" />
+	    </c:when>
+	    <c:otherwise>
+	        <jsp:include page="nTop.jsp" />
+	    </c:otherwise>
+	</c:choose>
+	
 	<div class="space">
 		<div class="section"><img class="detail" src="${pageContext.request.contextPath}/images/${product.image}" /></div>
 		<div class="section">
@@ -82,49 +90,68 @@
 </html>
 
 <script>
+	var login = '<%=session.getAttribute("login")%>';
+	
 	$('.purchase').click(function(){
-		location.href = ${product.no} + "/purchase";
+		if(login != 'null'){
+			location.href = ${product.no} + "/purchase";
+		}else{
+			alert("로그인이 필요합니다")
+		}
 	})
 	//PICK, UNPICK
-	var pick = new Array();
-	pick.push(${pick.no});
+	if(login != 'null'){
+		var pick = new Array();
+		pick.push(${pick.no});
 
-	if(pick[0] != null){
-		$('.unpick').css("display", "none");
+		if(pick[0] != 'null'){
+			$('.unpick').css("display", "none");
+		}else{
+			$('.pick').css("display", "none");
+			check = "unpick";
+		}
 	}else{
 		$('.pick').css("display", "none");
-		check = "unpick";
 	}
+
 	
 	//ajax
 	$('.pick').click(function(check){
-		$.ajax({
-			data: "pick",
-			type: "POST",
-			dataType: "text"
-		})
-		.done(function(result){
-			console.log("1");
-			$('.pick').css("display", "none");
-			$('.unpick').css("display", "block");
-		})
-		.always(function(){
-			console.log("always1");
-		})
+		if(login != 'null'){
+			$.ajax({
+				data: "pick",
+				type: "POST",
+				dataType: "text"
+			})
+			.done(function(result){
+				console.log("1");
+				$('.pick').css("display", "none");
+				$('.unpick').css("display", "block");
+			})
+			.always(function(){
+				console.log("always1");
+			})
+		}else{
+			alert("로그인이 필요합니다");
+		}
 	})
 	$('.unpick').click(function(check){
-		$.ajax({
-			data: "unpick",
-			type: "POST",
-			dataType:"text"
-		})
-		.done(function(result){
-			console.log("2");
-			$('.pick').css("display", "block");
-			$('.unpick').css("display", "none");
-		})
-		.always(function(){
-			console.log("always2");
-		})
+		if(login != 'null'){
+			$.ajax({
+				data: "unpick",
+				type: "POST",
+				dataType:"text"
+			})
+			.done(function(result){
+				console.log("2");
+				$('.pick').css("display", "block");
+				$('.unpick').css("display", "none");
+			})
+			.always(function(){
+				console.log("always2");
+			})	
+		}else{
+			alert("로그인이 필요합니다");
+		}
 	})
 </script>

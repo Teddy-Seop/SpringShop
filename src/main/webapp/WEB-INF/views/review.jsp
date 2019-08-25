@@ -15,11 +15,17 @@
 	.text{
 		width:70%;
 	}
+	.space{
+		position:absolute;
+		top: 25%; left:30%;
+    	width:50%; height:200px;
+	}
 </style>
 </head>
 <body>
 	<jsp:include page="top.jsp" />
-	<form method="POST" enctype="multipart/form-data">
+	<div class="space">
+		<form method="POST" enctype="multipart/form-data">
 		<table class="table">
 			<tr>
 				<td>REVIEW</td>
@@ -30,10 +36,11 @@
 				<td><input type="file" id="exampleInputFile" name="file"></td>
 			</tr>
 			<tr>
-				<td colspan="2"><button type="submit">WRITE</button></td>
+				<td colspan="2"><button type="submit" class="btn btn-default">WRITE</button></td>
 			</tr>
 			
 		</table>
 	</form>
+	</div>
 </body>
 </html>
