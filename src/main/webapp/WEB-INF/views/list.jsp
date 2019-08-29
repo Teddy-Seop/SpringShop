@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,8 +19,8 @@
 		margin:10px;
 	}
 	.img{
-		width: 200px;
-		height: 200px;
+		width: 300px;
+		height: 300px;
 	}
 	.target{
 		margin:100px;
@@ -28,6 +28,16 @@
 	a{
 		color:black;
 	}
+	.clear{
+        clear:both;
+    }
+    .postLoader{
+    	text-align: center;
+    }
+    .loader{
+    	height:100px;
+    	width:100px;
+    }
 </style>
 </head>
 <body>
@@ -41,12 +51,7 @@
 	</c:choose>
 	
 	<div class="target">
-		<c:set var="count" value="0" />
 		<c:forEach var="product" items="${productList}">
-			<c:set var="count" value="${total + 1}" />
-			<c:if test="${count == 5}">
-				<br>
-			</c:if>
 			<div class="space">
 				<div><a href="/shop/detail/${product.no}"><img class="img" src="${pageContext.request.contextPath}/images/${product.image}" /></a></div>
 				<div><a href="/shop/detail/${product.no}">${product.name}</a></div>
@@ -54,4 +59,62 @@
 			</div>
 		</c:forEach>
 	</div>
+	<div class="clear"></div>
+	<div class="postLoader"></div>
 </body>
+
+<script>
+	//상품 목록 무한 스크롤
+	function postFunc(){
+    	$('.postLoader').html('<img class="loader" src="${pageContext.request.contextPath}/images/loading.gif">');
+  	}
+	
+	function showProduct(index){
+		$.ajax({
+			headers: {
+				"content-type": "application/json",
+				"X-HTTP-Method-Override": "POST"	
+			},
+			data: JSON.stringify({
+				no: index
+			}),
+			type: "POST",
+			dataType: "json"
+		})
+		.done(function(result){
+			console.log(result);
+			var str = '';
+			if(result != ''){
+				$(result).each(function(){
+					console.log(this);
+
+					str += '<div class="space">'
+					str += '<div><a href="/shop/detail/' + this.no + '"><img class="img" src="${pageContext.request.contextPath}/images/' + this.image + '" /></a></div>'
+					str += '<div><a href="/shop/detail/' + this.no + '">' + this.name + '</a></div>'
+					str += '<div><a href="/shop/detail/' + this.no + '">' + this.price + '</a></div>'
+					str += '</div>'
+				})
+				$('.target').append(str);
+			}
+		})
+		.always(function(){
+			console.log("always1");
+		})
+	}
+	var processScroll = true;
+	var count = 0;
+	$(window).scroll(function() {
+	    if (processScroll  && $(window).scrollTop() > $(document).height() - $(window).height() - 100) {
+	        processScroll = false;
+	        if($('.postLoader').html() != '<img class="loader" src="${pageContext.request.contextPath}/images/loading.gif">'){
+		       	postFunc();
+		        setTimeout(function(){
+		        	$('.postLoader').empty();
+		        	showProduct(count);
+		        }, 2000);
+		        count++;
+	    	}
+	    }
+	    processScroll = true;
+	})
+</script>

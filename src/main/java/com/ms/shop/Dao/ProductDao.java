@@ -12,7 +12,7 @@ import com.ms.shop.Vo.ProductVo;
 import com.ms.shop.Vo.UserVo;
 
 @Repository("ProductDao")
-public class ProductDao implements IProductDao {
+public class ProductDao {
 
 	JdbcTemplate template;
 	
@@ -26,73 +26,61 @@ public class ProductDao implements IProductDao {
 	
 	private String Namespace = "com.ms.shop.Dao.IProductDao";
 
-	@Override
 	public List<ProductVo> productList() throws Exception {
 		
 		return sqlSession.selectList(Namespace + ".productList");
 	}
 
-	@Override
-	public List<ProductVo> productListGender(String gender) throws Exception {
+	public List<ProductVo> productListGender(ProductVo info) throws Exception {
 		
-		return sqlSession.selectList(Namespace + ".productListGender", gender);
+		return sqlSession.selectList(Namespace + ".productListGender", info);
 	}
 	
-	@Override
 	public List<ProductVo> productListCategory(ProductVo info) throws Exception {
 		
 		return sqlSession.selectList(Namespace + ".productListCategory", info);
 	}
 	
-	@Override
 	public ProductVo productDetail(int no) throws Exception {
 		
 		return sqlSession.selectOne(Namespace + ".productDetail", no);
 	}
 	
-	@Override
 	public List<ProductVo> productSearch(String keyword) throws Exception {
 		
 		return sqlSession.selectList(Namespace + ".productSearch", keyword);
 	}
 	
-	@Override
 	public List<ProductVo> productRank() throws Exception {
 		
 		return sqlSession.selectList(Namespace + ".productRank");
 	}
 	
-	@Override
 	public List<ProductVo> productNew() throws Exception {
 		
 		return sqlSession.selectList(Namespace + ".productNew");
 	}
 	
-	@Override
 	public void productRegister(ProductVo product) throws Exception {
 		
 		sqlSession.insert(Namespace + ".productRegister", product);
 	}
 
-	@Override
 	public List<ProductVo> managementList(String brand) throws Exception {
 		
 		return sqlSession.selectList(Namespace + ".managementList", brand);
 	}
 
-	@Override
 	public void productManagement(Map<String, Integer> map) throws Exception {
 		
 		sqlSession.update(Namespace + ".productManagement", map);
 	}
 
-	@Override
 	public void productStock(int no) throws Exception {
 		
 		sqlSession.update(Namespace + ".productStock", no);
 	}
 
-	@Override
 	public void productDelete(int no) throws Exception {
 		
 		sqlSession.delete(Namespace + ".productDelete", no);

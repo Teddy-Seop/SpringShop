@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -89,7 +90,7 @@ public class MainController {
 	}
 	
 	//성별별 리스트
-	@RequestMapping("/list/{gender}")
+	@RequestMapping(value="/list/{gender}", method=RequestMethod.GET)
 	public String genderList(Model model, HttpSession session, @PathVariable String gender) throws Exception{
 		
 		if(session.getAttribute("login") != null) {
@@ -97,14 +98,32 @@ public class MainController {
 			model.addAttribute("login", "login");
 		}
 		//제품 출력
-		List<ProductVo> productList = productDao.productListGender(gender);
+		ProductVo info = new ProductVo();
+		info.setGender(gender);
+		info.setNo(0);
+		System.out.println(info.getNo());
+		System.out.println(info.getGender());
+		List<ProductVo> productList = productDao.productListGender(info);
 		model.addAttribute("productList", productList);
-
+		
 		return "list";
 	}
 	
+	//성별별 리스트 append ajax
+	@RequestMapping(value="/list/{gender}", method=RequestMethod.POST)
+	public @ResponseBody List<ProductVo> genderList(@RequestBody ProductVo productVo, @PathVariable String gender) throws Exception{
+		
+		System.out.println(productVo.getNo());
+		ProductVo info = new ProductVo();
+		info.setGender(gender);
+		info.setNo(productVo.getNo() * 5); //스크롤 횟수
+		List<ProductVo> appendList = productDao.productListGender(info);
+		
+		return appendList;
+	}
+	
 	//카테고리별 리스트
-	@RequestMapping(value="/list/{gender}/{category}")
+	@RequestMapping(value="/list/{gender}/{category}", method=RequestMethod.GET)
 	public String categoryList(Model model, HttpSession session,@PathVariable String gender, @PathVariable String category) throws Exception{
 		
 		if(session.getAttribute("login") != null) {
@@ -118,6 +137,20 @@ public class MainController {
 		List<ProductVo> productList = productDao.productListCategory(info);
 		model.addAttribute("productList", productList);
 		return "list";
+	}
+	
+	//카테고리별 리스트 append ajax
+	@RequestMapping(value="/list/{gender}/{category}", method=RequestMethod.POST)
+	public @ResponseBody List<ProductVo> categoryList(@RequestBody ProductVo productVo, @PathVariable String gender, @PathVariable String category) throws Exception{
+			
+		System.out.println(productVo.getNo());
+		ProductVo info = new ProductVo();
+		info.setGender(gender);
+		info.setCategory(category);
+		info.setNo(productVo.getNo() * 5); //스크롤 횟수
+		List<ProductVo> appendList = productDao.productListCategory(info);
+		
+		return appendList;
 	}
 	
 	//상품 상세보기 페이지
